@@ -6,13 +6,19 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2015/11/19 23:38:09 by ebouther         ###   ########.fr       */
+/*   Updated: 2015/12/13 22:50:32 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_print_arg(va_list *ap, char *str)
+static void	ft_print_arg_2(va_list *ap, char *str)
+{
+	if (*str == 'x')
+		ft_putstr(ft_strdup(ft_itoa_base((unsigned int)va_arg(*ap, unsigned int), 16)));
+}
+
+static void	ft_print_arg(va_list *ap, char *str)
 {
 	if (*str == '%')
 		ft_putchar('%');
@@ -22,6 +28,10 @@ void	ft_print_arg(va_list *ap, char *str)
 		ft_putstr((char *)va_arg(*ap, char *));
 	else if(*str == 'd' || *str == 'i')
 		ft_putnbr((int)va_arg(*ap, int));
+	else if(*str == 'u')
+		ft_putnbr((int)va_arg(*ap, unsigned int));
+	else
+		ft_print_arg_2(ap, str);
 }
 
 void	ft_printf(char *str, ...)

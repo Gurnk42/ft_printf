@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2015/11/11 18:11:24 by ebouther         ###   ########.fr       */
+/*   Updated: 2015/12/13 22:50:33 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,5 @@
 #include <stdarg.h>
 
 void	ft_printf(char *str, ...);
-void	ft_print_arg(va_list *ap, char *str);
 
 #endif
