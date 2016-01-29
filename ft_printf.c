@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/01/29 17:54:57 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/01/29 18:38:56 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	i = 0;
 	tmp = NULL;	
 	/*if (*str == '%') // YOU LIAR, THERE'S NO WAY YOU'D FIND DAT !!
-	{
-		conv->conversion = *str;
-		return (ft_strdup("%"));
-	}*/
+	  {
+	  conv->conversion = *str;
+	  return (ft_strdup("%"));
+	  }*/
 	while (str[i] && str[i] != '%')
 	{
 		if (str[i] == 'c' ||
@@ -119,19 +119,29 @@ static char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		while (str[i + n] == '#' ||
+		if (str[i + n] == '#' ||
 				str[i + n] == '0' ||
 				str[i + n] == '-' ||
 				str[i + n] == ' ' ||
 				str[i + n] == '+')
 		{
-			if ((i + n) < conv->precision_pos) // gotta check if flag is not part of precision.
+			while (str[i + n] == '#' ||
+					str[i + n] == '0' ||
+					str[i + n] == '-' ||
+					str[i + n] == ' ' ||
+					str[i + n] == '+')
 			{
-				conv->flag = ft_strjoin(conv->flag, ft_char_to_str(str[i + n]));
-				if (conv->flag_pos == -1)
-					conv->flag_pos = i + n;
+				if (((i + n) < conv->precision_pos && conv->precision_pos != -1)
+						|| conv->precision_pos == -1) // gotta check if flag is not part of precision.
+				{
+					if (ft_strchr(conv->flag, str[i + n]) == NULL)
+						conv->flag = ft_strjoin(conv->flag, ft_char_to_str(str[i + n]));
+					if (conv->flag_pos == -1)
+						conv->flag_pos = i + n;
+				}
+				n++;
 			}
-			n++;
+			break ;
 		}
 		i++;
 	}
@@ -142,12 +152,17 @@ static char	*ft_get_padding(char *str, t_env *e)
 {
 	t_conv	conv;
 	char	*ret;
+	char	*padding;
 	int		i;
 	int		n;
+	int		offset;
+	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
 	ft_init_conv(&conv);
 	ret = ft_get_flags(str, &conv, e);
+	padding = ft_strnew(0);
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
@@ -164,6 +179,34 @@ static char	*ft_get_padding(char *str, t_env *e)
 			break;
 		}
 		i++;
+	}
+	i = 0;
+	if (ft_strcmp(conv.padding, "") != 0)
+	{
+		offset = 0;
+		while (i < ft_atoi(conv.padding) - ft_strlen(ret))
+		{
+			if (conv.conversion == 'd' || conv.conversion == 'i')
+			{
+				if (ft_strchr(conv.flag, '0') != NULL)
+				{
+					if (*ret == '-' && i == 0)
+					{
+						padding = ft_strjoin_free(padding, ft_strdup("-"));
+						offset = 1;
+						//i++;
+					}
+					else
+						padding = ft_strjoin_free(padding, ft_strdup("0"));
+				}
+				else
+					padding = ft_strjoin_free(padding, ft_strdup(" "));
+			}
+			i++;
+		}
+		ret = ft_strjoin(tmp = padding, (tmp2 = ret) + offset);
+		ft_strdel(&tmp);
+		ft_strdel(&tmp2);
 	}
 #ifdef EBUG
 	printf("PRECISION : '%s'\n", conv.precision);
@@ -197,7 +240,7 @@ int		ft_printf(char *s, ...)
 			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i, ft_char_to_str('%')));
 		else
 			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
-				env.tmp = ft_get_padding(env.ret + 1, &env)));
+						env.tmp = ft_get_padding(env.ret + 1, &env)));
 		i += (int)(env.ret - (env.str + i)) + env.offset;
 		ft_strdel(&env.tmp);
 	}
