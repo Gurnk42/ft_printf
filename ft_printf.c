@@ -38,98 +38,83 @@ static void	ft_print_arg(va_list *ap, char *str)
 }
 */
 
-static void	ft_get_conversion(char **str, t_conv *conv, char **ret, va_list *ap)
+static char	*ft_get_conversion(char *str, t_conv *conv, va_list *ap)
 {
 	char	*tmp;
+	char	*ret;
 
+	ret = ft_strnew(0);
 	tmp = NULL;
-	printf("YOP4\n");
-	printf("*STR : '%s'\n", *str);
-	if (**str == '%')
-		ft_putchar('%');
-	else if (**str == 'c')
-		ft_strjoin_free(*ret, tmp = ft_char_to_str((char)va_arg(*ap, int)));
-	else if (**str == 's')
-		ft_strjoin_free(*ret, (char *)va_arg(*ap, char *));
-	else if (**str == 'd' || **str == 'i')
-		ft_strjoin_free(*ret, tmp = ft_itoa((int)va_arg(*ap, int)));
-	else if (**str == 'u')
-		ft_strjoin_free(*ret, tmp = ft_itoa((int)va_arg(*ap, unsigned int)));
-	else if (**str == 'x')
-		ft_strjoin_free(*ret, tmp = ft_itoa_base((unsigned int)va_arg(*ap,
+	//printf("STR : '%s'\n", str);
+/*	if (*str == '%')
+		ft_strjoin_free(ret, (char *)"%");
+	else if (*str == 'c')
+		ft_strjoin_free(ret, tmp = ft_char_to_str((char)va_arg(*ap, int)));
+	else if (*str == 's')
+		ft_strjoin_free(ret, (char *)va_arg(*ap, char *));
+	else if (*str == 'd' || *str == 'i')
+		ft_strjoin_free(ret, tmp = ft_itoa((int)va_arg(*ap, int)));
+	else if (*str == 'u')
+		ft_strjoin_free(ret, tmp = ft_itoa((int)va_arg(*ap, unsigned int)));
+	else if (*str == 'x')
+		ft_strjoin_free(ret, tmp = ft_itoa_base((unsigned int)va_arg(*ap,
 			unsigned int), 16));
 	if (tmp != NULL)
-		ft_strdel(&tmp);
-	printf("RET : '%s'\n", *ret);
+		ft_strdel(&tmp);*/
+	ret = ft_strjoin_free(ret, ft_strdup(" BONJOUR "));
+	//printf("RET : '%s'\n", ret);
+	return (ret);
 }
 
-static char	*ft_get_precision(char **str, t_conv *conv, char **ret, va_list *ap)
+static char	*ft_get_precision(char *str, t_conv *conv, va_list *ap)
 {
-	printf("YOP3\n");
-	ft_get_conversion(str, conv, ret, ap);
+	return (ft_get_conversion(str, conv, ap));
 }
 
-static char	*ft_get_flags(char **str, t_conv *conv, char **ret, va_list *ap)
+static char	*ft_get_flags(char *str, t_conv *conv, va_list *ap)
 {
-	printf("YOP2\n");
-	ft_get_precision(str, conv, ret, ap);
+	return (ft_get_precision(str, conv, ap));
 }
 
-static char	*ft_get_padding(char **str, char **ret, va_list *ap)
+static char	*ft_get_padding(char *str, va_list *ap)
 {
 	t_conv	conv;
-	
-	printf("YOP1\n");
-	ft_get_flags(str, &conv, ret, ap);
+
+	return (ft_get_flags(str, &conv, ap));
 }
 
-static char	*ft_get_data(char **str, va_list *ap)
+/*static char	*ft_get_data(char *str, va_list *ap)
 {
 	int		i;
-	char	*conv;
+	char	*ret;
 
 	i = 0;
-	printf("YOP\n");
-	conv = ft_strnew(0);
-	while ((*str)[i] && (*str)[i] != '%')
-		i++;
-	if ((*str)[i] == '%')
-	{
-		(*str)[i] = '\0';
-		printf("STR : '%s'\n", *str);
-		conv = ft_strjoin_free(conv, *str);
-		*str = *str + i + 1;
-		ft_get_padding(str, &conv, ap);
-		printf("CONV : '%s'\n", conv);
-	}
-	else
-		conv = ft_strjoin_free(conv, *str);
-		printf("YEP3\n");
-	return (conv);
-}
+	if (*str == )
+	return (ret);
+}*/
 
-void		ft_printf(char *s, ...)
+int		ft_printf(char *s, ...)
 {
 	va_list	ap;
 	char	*ret;
 	char	*str;
 	char	*tmp;
+	int	len;
 
+	va_start(ap, s);
 	ret = NULL;
 	str = ft_strdup(s);
-	va_start(ap, s);
-	ret = ft_strnew(0);
-	while (*str != '\0')
+	tmp = str;
+	while (*tmp != '\0' && (ret = ft_strchr(tmp, '%')) != NULL)
 	{
-		/*if (*str == '%')
-			ft_print_arg(&ap, ++str);
-		else
-			ft_putchar(*str);
-			*/
-		ft_putendl(ret = ft_strjoin_free(ret, tmp = ft_get_data(&str, &ap)));
-		ft_strdel(&tmp);
+		*ret = '\0';
+		str = ft_strjoin(str, ft_get_padding(ret + 1, &ap));
+		tmp = ret + 1;
+		printf("TMP : '%s'\n", ret + 1);
 	}
+	ft_putstr(str);
+	len = ft_strlen(str);
 	va_end(ap);
 	ft_strdel(&str);
+	return (len);
 }
-

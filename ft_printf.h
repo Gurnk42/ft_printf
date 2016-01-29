@@ -28,7 +28,7 @@ typedef struct	s_conv
 	char		*padding; // 45
 }				t_conv;
 
-void	ft_printf(char *str, ...);
+int	ft_printf(char *str, ...);
 
 /*
 ** utils.c
