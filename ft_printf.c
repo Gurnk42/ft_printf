@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/01/28 21:32:33 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/01/29 15:46:56 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,98 +14,153 @@
 
 #include <stdio.h>
 
-/*static void	ft_print_arg_2(va_list *ap, char *str)
-{
-	if (*str == 'x')
-		ft_putstr(ft_strdup(ft_itoa_base((unsigned int)va_arg(*ap,
-			unsigned int), 16)));
-}
-
-static void	ft_print_arg(va_list *ap, char *str)
-{
-	if (*str == '%')
-		ft_putchar('%');
-	else if (*str == 'c')
-		ft_putchar((char)va_arg(*ap, int));
-	else if(*str == 's')
-		ft_putstr((char *)va_arg(*ap, char *));
-	else if(*str == 'd' || *str == 'i')
-		ft_putnbr((int)va_arg(*ap, int));
-	else if(*str == 'u')
-		ft_putnbr((int)va_arg(*ap, unsigned int));
-	else
-		ft_print_arg_2(ap, str);
-}
-*/
-
-static char	*ft_get_conversion(char *str, t_conv *conv, va_list *ap)
+static char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 {
 	char	*tmp;
 	char	*ret;
+	int		i;
 
-	tmp = NULL;
+	i = 0;
+	tmp = NULL;	
 	if (*str == '%')
-		ret = ft_strdup("%");
-	else if (*str == 'c')
-		ret = ft_char_to_str((char)va_arg(*ap, int));
-	else if (*str == 's')
-		ret = ft_strdup((const char *)va_arg(*ap, char *));
-	else if (*str == 'd' || *str == 'i')
-		ret = ft_itoa((int)va_arg(*ap, int));
-	else if (*str == 'u')
-		ret = ft_itoa((int)va_arg(*ap, unsigned int));
-	else if (*str == 'x')
-		ret = ft_itoa_base((unsigned int)va_arg(*ap,
+	{
+		conv->conversion = *str;
+		return (ft_strdup("%"));
+	}
+	while (str[i] && str[i] != '%')
+	{
+		if (str[i] == 'c' ||
+			str[i] == 's' ||
+			str[i] == 'd' ||
+			str[i] == 'i' ||
+			str[i] == 'u' ||
+			str[i] == 'x')
+		{
+			conv->conversion = str[i];
+			conv->conversion_pos = i;
+			break ;
+		}
+		i++;
+	}
+	if (conv->conversion == 0)
+		return (NULL); // strjoin_free should manage dis
+	else if (conv->conversion == 'c')
+		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
+	else if (conv->conversion == 's')
+		ret = ft_strdup((const char *)va_arg(*(e->ap), char *));
+	else if (conv->conversion == 'd' || *str == 'i')
+		ret = ft_itoa((int)va_arg(*(e->ap), int));
+	else if (conv->conversion == 'u')
+		ret = ft_itoa((int)va_arg(*(e->ap), unsigned int));
+	else if (conv->conversion == 'x')
+		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
 			unsigned int), 16);
 	return (ret);
 }
 
-static char	*ft_get_precision(char *str, t_conv *conv, va_list *ap)
+static char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 {
-	return (ft_get_conversion(str, conv, ap));
+	char	*ret;
+	int		i;
+	int		n;
+
+	i = 0;
+	conv->precision = ft_strnew(0);
+	while (str[i] && str[i] != '%')
+	{
+		if (str[i] == '.')
+		{
+			n = 1;
+			conv->precision_pos = i;
+			while (ft_isdigit(str[i + n]) == 1)
+			{
+				conv->precision = ft_strjoin_free(conv->precision, ft_char_to_str(str[i + n]));
+				n++;
+			}
+			break ;
+		}
+		i++;
+	}
+	ret = ft_get_conversion(str, conv, e);
+	if (conv->conversion == '%')
+		return (ret);
+	return (ret);
 }
 
-static char	*ft_get_flags(char *str, t_conv *conv, va_list *ap)
+static char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
 {
-	return (ft_get_precision(str, conv, ap));
+	char	*ret;
+	int		i;
+	int		n;
+
+	i = 0;
+	ret = ft_get_precision(str, conv, e);
+	while (str[i] && str[i] != '%')
+	{
+		n = 0;
+		while (str[i + n] == '#' ||
+			str[i + n] == '0' ||
+			str[i + n] == '-' ||
+			str[i + n] == '+')
+		{
+			if (conv->flag_pos == -1)
+				conv->flag_pos = i + n;
+			n++;
+		}
+		i++;
+	}
+	printf("PRECISION : '%s'\n", conv->precision);
+	printf("PRECISION_POS : '%d'\n", conv->precision_pos);
+	printf("CONVERSION_POS : '%d'\n", conv->conversion_pos);
+	printf("FLAG_POS : '%d'\n", conv->flag_pos);
+	return (ret);
 }
 
-static char	*ft_get_padding(char *str, va_list *ap)
+static char	*ft_get_padding(char *str, t_env *e)
 {
 	t_conv	conv;
 
-	return (ft_get_flags(str, &conv, ap));
+	conv.conversion = 0;
+	conv.precision = NULL;
+	conv.precision_pos = -1;
+	conv.flag_pos = -1;
+
+	//ft_strdel(&conv.precision);
+	return (ft_get_flags(str, &conv, e));
+}
+
+static void	ft_init_env(char *s, va_list *ap, t_env *e)
+{
+	e->str = ft_strdup(s);
+	e->ap = ap;
+	e->res = ft_strnew(0);
+	e->tmp = NULL;
+	e->ret = NULL;
+	e->offset = 2;
 }
 
 int		ft_printf(char *s, ...)
 {
+	t_env	env;
 	va_list	ap;
-	char	*ret;
-	char	*str;
-	char	*res;
-	char	*tmp;
 	int	len;
 	int	i;
-	int	offset;
 
-	offset = 2;
 	va_start(ap, s);
-	ret = NULL;
-	str = ft_strdup(s);
-	res = ft_strnew(0);
+	ft_init_env(s, &ap, &env);
 	i = 0;
-	while ((ret = ft_strchr(&(str[i]), '%')) != NULL)
+	while ((env.ret = ft_strchr(env.str + i, '%')) != NULL)
 	{
-		*ret = '\0';
-		res = ft_strjoin_free(res, ft_strjoin(str + i,
-			tmp = ft_get_padding(ret + 1, &ap)));
-		i += (int)(ret - (str + i)) + offset;
-		ft_strdel(&tmp);
+		*env.ret = '\0';
+		env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
+			env.tmp = ft_get_padding(env.ret + 1, &env)));
+		i += (int)(env.ret - (env.str + i)) + env.offset;
+		ft_strdel(&env.tmp);
 	}
-	ft_putstr(res);
-	len = ft_strlen(res);
-	va_end(ap);
-	ft_strdel(&res);
-	ft_strdel(&str);
+	ft_putstr(env.res);
+	len = ft_strlen(env.res);
+	va_end(*(env.ap));
+	ft_strdel(&env.res);
+	ft_strdel(&env.str);
 	return (len);
 }
