@@ -43,21 +43,20 @@ static char	*ft_get_conversion(char *str, t_conv *conv, va_list *ap)
 	char	*tmp;
 	char	*ret;
 
-	ret = ft_strnew(0);
 	tmp = NULL;
 	if (*str == '%')
-		ret = ft_strjoin_free(ret, ft_strdup("%"));
+		ret = ft_strdup("%");
 	else if (*str == 'c')
-		ret = ft_strjoin_free(ret, ft_char_to_str((char)va_arg(*ap, int)));
+		ret = ft_char_to_str((char)va_arg(*ap, int));
 	else if (*str == 's')
-		ret = ft_strjoin_free(ret, ft_strdup((const char *)va_arg(*ap, char *)));
+		ret = ft_strdup((const char *)va_arg(*ap, char *));
 	else if (*str == 'd' || *str == 'i')
-		ret = ft_strjoin_free(ret, ft_itoa((int)va_arg(*ap, int)));
+		ret = ft_itoa((int)va_arg(*ap, int));
 	else if (*str == 'u')
-		ret = ft_strjoin_free(ret, ft_itoa((int)va_arg(*ap, unsigned int)));
+		ret = ft_itoa((int)va_arg(*ap, unsigned int));
 	else if (*str == 'x')
-		ret = ft_strjoin_free(ret, ft_itoa_base((unsigned int)va_arg(*ap,
-			unsigned int), 16));
+		ret = ft_itoa_base((unsigned int)va_arg(*ap,
+			unsigned int), 16);
 	return (ret);
 }
 
@@ -84,6 +83,7 @@ int		ft_printf(char *s, ...)
 	char	*ret;
 	char	*str;
 	char	*res;
+	char	*tmp;
 	int	len;
 	int	i;
 	int	offset;
@@ -98,8 +98,9 @@ int		ft_printf(char *s, ...)
 	{
 		*ret = '\0';
 		res = ft_strjoin_free(res, ft_strjoin(str + i,
-			ft_get_padding(ret + 1, &ap)));
+			tmp = ft_get_padding(ret + 1, &ap)));
 		i += (int)(ret - (str + i)) + offset;
+		ft_strdel(&tmp);
 	}
 	ft_putstr(res);
 	len = ft_strlen(res);
