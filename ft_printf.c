@@ -45,24 +45,19 @@ static char	*ft_get_conversion(char *str, t_conv *conv, va_list *ap)
 
 	ret = ft_strnew(0);
 	tmp = NULL;
-	//printf("STR : '%s'\n", str);
-/*	if (*str == '%')
-		ft_strjoin_free(ret, (char *)"%");
+	if (*str == '%')
+		ret = ft_strjoin_free(ret, ft_strdup("%"));
 	else if (*str == 'c')
-		ft_strjoin_free(ret, tmp = ft_char_to_str((char)va_arg(*ap, int)));
+		ret = ft_strjoin_free(ret, ft_char_to_str((char)va_arg(*ap, int)));
 	else if (*str == 's')
-		ft_strjoin_free(ret, (char *)va_arg(*ap, char *));
+		ret = ft_strjoin_free(ret, ft_strdup((const char *)va_arg(*ap, char *)));
 	else if (*str == 'd' || *str == 'i')
-		ft_strjoin_free(ret, tmp = ft_itoa((int)va_arg(*ap, int)));
+		ret = ft_strjoin_free(ret, ft_itoa((int)va_arg(*ap, int)));
 	else if (*str == 'u')
-		ft_strjoin_free(ret, tmp = ft_itoa((int)va_arg(*ap, unsigned int)));
+		ret = ft_strjoin_free(ret, ft_itoa((int)va_arg(*ap, unsigned int)));
 	else if (*str == 'x')
-		ft_strjoin_free(ret, tmp = ft_itoa_base((unsigned int)va_arg(*ap,
+		ret = ft_strjoin_free(ret, ft_itoa_base((unsigned int)va_arg(*ap,
 			unsigned int), 16));
-	if (tmp != NULL)
-		ft_strdel(&tmp);*/
-	ret = ft_strjoin_free(ret, ft_strdup(" BONJOUR "));
-	//printf("RET : '%s'\n", ret);
 	return (ret);
 }
 
@@ -83,38 +78,33 @@ static char	*ft_get_padding(char *str, va_list *ap)
 	return (ft_get_flags(str, &conv, ap));
 }
 
-/*static char	*ft_get_data(char *str, va_list *ap)
-{
-	int		i;
-	char	*ret;
-
-	i = 0;
-	if (*str == )
-	return (ret);
-}*/
-
 int		ft_printf(char *s, ...)
 {
 	va_list	ap;
 	char	*ret;
 	char	*str;
-	char	*tmp;
+	char	*res;
 	int	len;
+	int	i;
+	int	offset;
 
+	offset = 2;
 	va_start(ap, s);
 	ret = NULL;
 	str = ft_strdup(s);
-	tmp = str;
-	while (*tmp != '\0' && (ret = ft_strchr(tmp, '%')) != NULL)
+	res = ft_strnew(0);
+	i = 0;
+	while ((ret = ft_strchr(&(str[i]), '%')) != NULL)
 	{
 		*ret = '\0';
-		str = ft_strjoin(str, ft_get_padding(ret + 1, &ap));
-		tmp = ret + 1;
-		printf("TMP : '%s'\n", ret + 1);
+		res = ft_strjoin_free(res, ft_strjoin(str + i,
+			ft_get_padding(ret + 1, &ap)));
+		i += (int)(ret - (str + i)) + offset;
 	}
-	ft_putstr(str);
-	len = ft_strlen(str);
+	ft_putstr(res);
+	len = ft_strlen(res);
 	va_end(ap);
+	ft_strdel(&res);
 	ft_strdel(&str);
 	return (len);
 }
