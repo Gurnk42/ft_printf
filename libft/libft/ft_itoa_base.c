@@ -17,7 +17,7 @@ static char	digit_to_char(int digit)
 	if (digit < 10)
 		return ('0' + digit);
 	else
-		return ('a' - 10 + digit);
+		return ('A' - 10 + digit);
 }
 
 char		*ft_itoa_base(int value, int base)

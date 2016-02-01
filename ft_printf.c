@@ -43,11 +43,7 @@ static char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 
 	i = 0;
 	tmp = NULL;	
-	/*if (*str == '%') // YOU LIAR, THERE'S NO WAY YOU'D FIND DAT !!
-	  {
-	  conv->conversion = *str;
-	  return (ft_strdup("%"));
-	  }*/
+	ret = NULL;	
 	while (str[i] && str[i] != '%')
 	{
 		if (str[i] == 'c' ||
@@ -184,7 +180,7 @@ static char	*ft_get_padding(char *str, t_env *e)
 	if (ft_strcmp(conv.padding, "") != 0)
 	{
 		offset = 0;
-		while (i < ft_atoi(conv.padding) - ft_strlen(ret))
+		while (i < (int)(ft_atoi(conv.padding) - ft_strlen(ret)))
 		{
 			if (conv.conversion == 'd' || conv.conversion == 'i')
 			{
@@ -242,6 +238,11 @@ int		ft_printf(char *s, ...)
 			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
 						env.tmp = ft_get_padding(env.ret + 1, &env)));
 		i += (int)(env.ret - (env.str + i)) + env.offset;
+		ft_strdel(&env.tmp);
+	}
+	if (i < len)
+	{
+		env.res = ft_strjoin(env.tmp = env.res, env.str + i);
 		ft_strdel(&env.tmp);
 	}
 	ft_putstr(env.res);
