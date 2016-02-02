@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 09:51:30 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 11:03:33 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,23 @@ char	*ft_char_to_str(char c);
 char	*ft_strjoin_free(char *s1, char *s2);
 
 /*
-** padding.c
+** conversion.c
 */
-char	*ft_get_padding(char *str, t_env *e);
+char	*ft_get_conversion(char *str, t_conv *conv, t_env *e);
+
+/*
+** precision.c
+*/
+char	*ft_get_precision(char *str, t_conv *conv, t_env *e);
 
 /*
 ** flags.c
 */
 char	*ft_get_flags(char *str, t_conv *conv, t_env *e);
+
+/*
+** padding.c
+*/
+char	*ft_get_padding(char *str, t_env *e);
 
 #endif

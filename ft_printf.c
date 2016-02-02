@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 09:51:31 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 11:03:57 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,115 +33,6 @@ static void	ft_init_env(char *s, va_list *ap, t_env *e)
 	e->tmp = NULL;
 	e->ret = NULL;
 	e->offset = 2;
-}
-
-char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
-{
-	char	*tmp;
-	char	*ret;
-	int		i;
-
-	i = 0;
-	tmp = NULL;	
-	ret = NULL;	
-	while (str[i] && str[i] != '%')
-	{
-		if (str[i] == 'c' ||
-				str[i] == 's' ||
-				str[i] == 'd' ||
-				str[i] == 'i' ||
-				str[i] == 'u' ||
-				str[i] == 'x')
-		{
-			conv->conversion = str[i];
-			conv->conversion_pos = i;
-			break ;
-		}
-		i++;
-	}
-	if (conv->conversion == 0)
-		return (NULL); // strjoin_free should manage dis
-	else if (conv->conversion == 'c')
-		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
-	else if (conv->conversion == 's')
-		ret = ft_strdup((const char *)va_arg(*(e->ap), char *));
-	else if (conv->conversion == 'd' || conv->conversion == 'i')
-		ret = ft_itoa((int)va_arg(*(e->ap), int));
-	else if (conv->conversion == 'u')
-		ret = ft_itoa((int)va_arg(*(e->ap), unsigned int));
-	else if (conv->conversion == 'x')
-		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
-					unsigned int), 16);
-	return (ret);
-}
-
-char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
-{
-	char	*ret;
-	int		i;
-	int		n;
-
-	i = 0;
-	conv->precision = ft_strnew(0);
-	while (str[i] && str[i] != '%')
-	{
-		if (str[i] == '.')
-		{
-			n = 1;
-			conv->precision_pos = i;
-			while (ft_isdigit(str[i + n]) == 1)
-			{
-				conv->precision = ft_strjoin_free(conv->precision, ft_char_to_str(str[i + n]));
-				n++;
-			}
-			break ;
-		}
-		i++;
-	}
-	ret = ft_get_conversion(str, conv, e);
-	if (conv->conversion == '%')
-		return (ret);
-	return (ret);
-}
-
-char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
-{
-	char	*ret;
-	int		i;
-	int		n;
-
-	i = 0;
-	ret = ft_get_precision(str, conv, e);
-	while (str[i] && str[i] != '%')
-	{
-		n = 0;
-		if (str[i + n] == '#' ||
-				str[i + n] == '0' ||
-				str[i + n] == '-' ||
-				str[i + n] == ' ' ||
-				str[i + n] == '+')
-		{
-			while (str[i + n] == '#' ||
-					str[i + n] == '0' ||
-					str[i + n] == '-' ||
-					str[i + n] == ' ' ||
-					str[i + n] == '+')
-			{
-				if (((i + n) < conv->precision_pos && conv->precision_pos != -1)
-						|| conv->precision_pos == -1) // gotta check if flag is not part of precision.
-				{
-					if (ft_strchr(conv->flag, str[i + n]) == NULL)
-						conv->flag = ft_strjoin(conv->flag, ft_char_to_str(str[i + n]));
-					if (conv->flag_pos == -1)
-						conv->flag_pos = i + n;
-				}
-				n++;
-			}
-			break ;
-		}
-		i++;
-	}
-	return (ret);
 }
 
 int		ft_printf(char *s, ...)
