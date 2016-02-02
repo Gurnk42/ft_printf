@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 22:08:56 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 22:46:15 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	else
 		return (ft_strnew(0));
 #ifdef EBUG
+	printf("MODIFIER : '%s'\n", conv.modifier);
 	printf("PRECISION : '%s'\n", conv.precision);
 	printf("PRECISION_POS : '%d'\n", conv.precision_pos);
 	printf("CONVERSION : '%c'\n", conv.conversion);

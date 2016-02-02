@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:12:25 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 22:07:46 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 22:46:45 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 static void		ft_flag_switch(int *i, int *n, char **str, t_conv *conv)
 {
-	while ((*str)[*i + *n] == '#' ||
-			(*str)[*i + *n] == '0' ||
-			(*str)[*i + *n] == '-' ||
-			(*str)[*i + *n] == ' ' ||
-			(*str)[*i + *n] == '+')
+	while (ft_strchr("#0- +", (*str)[*i + *n]))
 	{
 		if (((*i + *n) < conv->precision_pos && conv->precision_pos != -1)
 				|| conv->precision_pos == -1)
@@ -44,11 +40,7 @@ char			*ft_get_flags(char *str, t_conv *conv, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		if (str[i + n] == '#' ||
-				str[i + n] == '0' ||
-				str[i + n] == '-' ||
-				str[i + n] == ' ' ||
-				str[i + n] == '+')
+		if (ft_strchr("#0- +", str[i + n]))
 		{
 			ft_flag_switch(&i, &n, &str, conv);
 			break ;

@@ -12,7 +12,7 @@ int main()
 	//printf("\nTEST:\n");
 	//ft_printf("P : '%p'", &x);
 	//printf("P : '%p'", &x);
-	printf("%o\n", 42);
-	ft_printf("%o\n", 42);
+	printf("%lld\n", (long long)42);
+	ft_printf("%lld\n", (long long)42);
 	return (0);
 }

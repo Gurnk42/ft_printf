@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 17:44:36 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 22:35:37 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	ft_init_conv(t_conv *conv)
 {
+	conv->modifier = ft_strnew(0);
 	conv->conversion = 0;
 	conv->conversion_pos = -1;
 	conv->precision = NULL;
