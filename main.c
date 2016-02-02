@@ -12,8 +12,8 @@ int main()
 	//printf("\nTEST:\n");
 	//ft_printf("P : '%p'", &x);
 	//printf("P : '%p'", &x);
-	printf("eux:%c\n", 0);
-	ft_printf("moi:%c\n", 0);
+	printf("yours:%D\n", 42);
+	ft_printf("mine:%D\n", 42);
 	printf("\n");
 	return (0);
 }

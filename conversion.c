@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 17:47:38 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 18:03:37 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	if (conv->conversion == 0)
 		return (NULL);
 	else if (conv->conversion == 'c')
-	{
 		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
-		//printf("RET : '%s'\n", ret);
-	}
 	else if (conv->conversion == 's')
 	{
 		if ((ret = ft_strdup((char *)va_arg(*(e->ap), char *))) == NULL)
@@ -71,6 +68,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	}
 	else if (conv->conversion == '%')
 		ret = ft_strdup("%");
-	else if (conv->conversion == '')
+	else if (conv->conversion == 'D')
+		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long), "0123456789");
 	return (ret);
 }
