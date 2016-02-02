@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 12:20:24 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 12:37:06 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	ret = NULL;	
 	while (str[i] && str[i] != '%')
 	{
-		if (str[i] == 'c' ||
-				str[i] == 's' ||
-				str[i] == 'd' ||
-				str[i] == 'i' ||
-				str[i] == 'u' ||
-				str[i] == 'x')
+		if (ft_strchr("sSpdDioOuUxXcC", str[i]) != NULL)
 		{
 			conv->conversion = str[i];
 			conv->conversion_pos = i;
@@ -57,5 +52,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	else if (conv->conversion == 'x')
 		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
 					unsigned int), 16);
+	else if (conv->conversion == 'p')
+		ret = ft_itoa((int)va_arg(*(e->ap), unsigned int));
 	return (ret);
 }
