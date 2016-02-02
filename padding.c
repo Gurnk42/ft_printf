@@ -6,11 +6,13 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 11:11:31 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 16:41:00 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+#include <stdio.h>
 
 static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, int *offset, int *len)
 {
@@ -86,7 +88,10 @@ char	*ft_get_padding(char *str, t_env *e)
 		}
 		i++;
 	}
-	ft_do_padding(&ret, &conv);
+	if (ret != NULL)
+		ft_do_padding(&ret, &conv);
+	else
+		return (ft_strnew(0));
 #ifdef EBUG
 	printf("PRECISION : '%s'\n", conv.precision);
 	printf("PRECISION_POS : '%d'\n", conv.precision_pos);
@@ -95,6 +100,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("FLAGS : '%s'\n", conv.flag);
 	printf("FLAG_POS : '%d'\n", conv.flag_pos);
 	printf("PADDING : '%s'\n", conv.padding);
+	printf("\n");
 	//ft_strdel(&conv.precision);
 #endif
 	e->offset = conv.conversion_pos + 2;

@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 10:59:30 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 16:38:33 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 		i++;
 	}
 	ret = ft_get_conversion(str, conv, e);
-	if (conv->conversion == '%')
-		return (ret);
+	//if (conv->conversion == '%')
+	//	return (ret);
 	return (ret);
 }

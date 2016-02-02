@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 12:59:31 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 16:13:37 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,32 @@ int		ft_printf(char *s, ...)
 	va_start(ap, s);
 	ft_init_env(s, &ap, &env);
 	len = ft_strlen(s);
-	while (i < len && (env.ret = ft_strchr(env.str + i, '%')) != NULL)
+	if (ft_strcmp(s, "%") == 0)
 	{
-		*env.ret = '\0';
-		if (*(env.ret + 1) == '%')
-			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i, ft_char_to_str('%')));
-		else
-			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
-						env.tmp = ft_get_padding(env.ret + 1, &env)));
-		i += (int)(env.ret - (env.str + i)) + env.offset;
-		ft_strdel(&env.tmp);
+		env.res = ft_strdup("");
+		len = 0;
 	}
-	if (i < len)
+	else
 	{
-		env.res = ft_strjoin(env.tmp = env.res, env.str + i);
-		ft_strdel(&env.tmp);
+		while (i < len && (env.ret = ft_strchr(env.str + i, '%')) != NULL)
+		{
+			*env.ret = '\0';
+			//if (*(env.ret + 1) == '%')
+			//	env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i, ft_char_to_str('%')));
+			//else
+				env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
+							env.tmp = ft_get_padding(env.ret + 1, &env)));
+			i += (int)(env.ret - (env.str + i)) + env.offset;
+			ft_strdel(&env.tmp);
+		}
+		if (i < len)
+		{
+			env.res = ft_strjoin(env.tmp = env.res, env.str + i);
+			ft_strdel(&env.tmp);
+		}
+		ft_putstr(env.res);
+		len = ft_strlen(env.res);
 	}
-	ft_putstr(env.res);
-	len = ft_strlen(env.res);
 	va_end(*(env.ap));
 	ft_strdel(&env.res);
 	ft_strdel(&env.str);
