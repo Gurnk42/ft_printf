@@ -12,8 +12,7 @@ int main()
 	//printf("\nTEST:\n");
 	//ft_printf("P : '%p'", &x);
 	//printf("P : '%p'", &x);
-	printf("yours:%D\n", 42);
-	ft_printf("mine:%D\n", 42);
-	printf("\n");
+	printf("%o\n", 42);
+	ft_printf("%o\n", 42);
 	return (0);
 }

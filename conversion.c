@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 18:03:37 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 21:56:58 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	}
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
 		ret = ft_itoa((int)va_arg(*(e->ap), int));
-	else if (conv->conversion == 'u')
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned int), "0123456789");
+	else if (conv->conversion == 'u' || conv->conversion == 'U')
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long), "0123456789");
 	else if (conv->conversion == 'x')
-		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
-					unsigned int), 16);
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
+					unsigned long long), "0123456789abcdef");
 	else if (conv->conversion == 'p')
 	{
 		if ((ret = ft_llntoa_base((unsigned long)va_arg(*(e->ap), void *), (char *)"0123456789abcdef")) == NULL)
@@ -70,5 +70,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		ret = ft_strdup("%");
 	else if (conv->conversion == 'D')
 		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long), "0123456789");
+	else if (conv->conversion == 'o')
+		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long long), (char *)"01234567");
 	return (ret);
 }
