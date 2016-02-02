@@ -6,13 +6,11 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 12:37:06 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 15:43:48 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-#include <stdio.h>
 
 char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 {
@@ -34,7 +32,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		i++;
 	}
 	if (conv->conversion == 0)
-		return (NULL); // strjoin_free should manage dis
+		return (NULL);
 	else if (conv->conversion == 'c')
 		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
 	else if (conv->conversion == 's')
@@ -53,6 +51,14 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
 					unsigned int), 16);
 	else if (conv->conversion == 'p')
-		ret = ft_itoa((int)va_arg(*(e->ap), unsigned int));
+	{
+		if ((ret = ft_llntoa_base((unsigned long)va_arg(*(e->ap), void *), (char *)"0123456789abcdef")) == NULL)
+		{
+			ft_memdel((void **)&ret);
+			ret = ft_strdup("(null)");
+		}
+		else
+			ret = ft_strjoin_free(ft_strdup("0x"), ret);
+	}
 	return (ret);
 }

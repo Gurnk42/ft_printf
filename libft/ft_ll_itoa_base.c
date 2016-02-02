@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ll_itoa_base.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rporcon <rporcon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/06 12:43:31 by rporcon           #+#    #+#             */
-/*   Updated: 2016/02/02 12:56:32 by ebouther         ###   ########.fr       */
+/*   Created: 2016/02/02 14:56:35 by ebouther          #+#    #+#             */
+/*   Updated: 2016/02/02 15:40:00 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 static int	ft_get_res_length(long long n, int base_length)
 {
@@ -49,7 +49,7 @@ static int	ft_get_res_length_un(unsigned long long n, int base_length)
 	return (i);
 }
 
-char		*ft_lltoa(long long n, char *base)
+char		*ft_lltoa_base(long long n, char *base)
 {
 	int		base_length;
 	int		res_length;
@@ -77,7 +77,7 @@ char		*ft_lltoa(long long n, char *base)
 	return (res);
 }
 
-char		*ft_llntoa(unsigned long long n, char *base)
+char		*ft_llntoa_base(unsigned long long n, char *base)
 {
 	int		base_length;
 	int		res_length;
