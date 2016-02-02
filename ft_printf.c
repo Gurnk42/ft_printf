@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/01/29 18:39:44 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 09:51:31 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-static void	ft_init_conv(t_conv *conv)
+void	ft_init_conv(t_conv *conv)
 {
 	conv->conversion = 0;
 	conv->conversion_pos = -1;
@@ -35,7 +35,7 @@ static void	ft_init_env(char *s, va_list *ap, t_env *e)
 	e->offset = 2;
 }
 
-static char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
+char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 {
 	char	*tmp;
 	char	*ret;
@@ -75,7 +75,7 @@ static char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	return (ret);
 }
 
-static char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
+char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 {
 	char	*ret;
 	int		i;
@@ -104,7 +104,7 @@ static char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 	return (ret);
 }
 
-static char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
+char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
 {
 	char	*ret;
 	int		i;
@@ -141,80 +141,6 @@ static char	*ft_get_flags(char *str, t_conv *conv, t_env *e)
 		}
 		i++;
 	}
-	return (ret);
-}
-
-static char	*ft_get_padding(char *str, t_env *e)
-{
-	t_conv	conv;
-	char	*ret;
-	char	*padding;
-	int		i;
-	int		n;
-	int		offset;
-	char	*tmp;
-	char	*tmp2;
-
-	i = 0;
-	ft_init_conv(&conv);
-	ret = ft_get_flags(str, &conv, e);
-	padding = ft_strnew(0);
-	while (str[i] && str[i] != '%')
-	{
-		n = 0;
-		if (ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
-		{
-			while (ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
-			{
-				// gotta check if flag is not part of precision.
-				if (((conv.precision_pos != -1) && ((i + n) < conv.precision_pos))
-						|| (conv.precision_pos == -1))
-					conv.padding = ft_strjoin(conv.padding, ft_char_to_str(str[i + n]));
-				n++;
-			}
-			break;
-		}
-		i++;
-	}
-	i = 0;
-	if (ft_strcmp(conv.padding, "") != 0)
-	{
-		offset = 0;
-		while (i < (int)(ft_atoi(conv.padding) - ft_strlen(ret)))
-		{
-			if (conv.conversion == 'd' || conv.conversion == 'i')
-			{
-				if (ft_strchr(conv.flag, '0') != NULL)
-				{
-					if (*ret == '-' && i == 0)
-					{
-						padding = ft_strjoin_free(padding, ft_strdup("-"));
-						offset = 1;
-						//i++;
-					}
-					else
-						padding = ft_strjoin_free(padding, ft_strdup("0"));
-				}
-				else
-					padding = ft_strjoin_free(padding, ft_strdup(" "));
-			}
-			i++;
-		}
-		ret = ft_strjoin(tmp = padding, (tmp2 = ret) + offset);
-		ft_strdel(&tmp);
-		ft_strdel(&tmp2);
-	}
-#ifdef EBUG
-	printf("PRECISION : '%s'\n", conv.precision);
-	printf("PRECISION_POS : '%d'\n", conv.precision_pos);
-	printf("CONVERSION : '%c'\n", conv.conversion);
-	printf("CONVERSION_POS : '%d'\n", conv.conversion_pos);
-	printf("FLAGS : '%s'\n", conv.flag);
-	printf("FLAG_POS : '%d'\n", conv.flag_pos);
-	printf("PADDING : '%s'\n", conv.padding);
-	//ft_strdel(&conv.precision);
-#endif
-	e->offset = conv.conversion_pos + 2;
 	return (ret);
 }
 

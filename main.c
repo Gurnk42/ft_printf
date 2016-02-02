@@ -9,5 +9,6 @@ int main()
 	ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
 	printf("\n-----------------------------------------------\n");
 	printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
+	printf("\nTEST:\n");
 	return (0);
 }

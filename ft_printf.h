@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/01/29 18:39:45 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 09:51:30 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,23 @@ typedef struct	s_conv
 	char		*padding; // 45
 }				t_conv;
 
-int	ft_printf(char *str, ...);
+int		ft_printf(char *str, ...);
+void	ft_init_conv(t_conv *conv);
 
 /*
 ** utils.c
 */
 char	*ft_char_to_str(char c);
 char	*ft_strjoin_free(char *s1, char *s2);
+
+/*
+** padding.c
+*/
+char	*ft_get_padding(char *str, t_env *e);
+
+/*
+** flags.c
+*/
+char	*ft_get_flags(char *str, t_conv *conv, t_env *e);
 
 #endif

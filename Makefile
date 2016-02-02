@@ -4,6 +4,7 @@ INCLUDE = -I./libft/includes/
 CFLAGS = -Wall -Wextra -Werror $(INCLUDE)
 SRCS = ft_printf.c \
 	utils.c \
+	padding.c \
 	./libft/ft_memset.c \
 	./libft/ft_bzero.c \
 	./libft/ft_memcpy.c \
