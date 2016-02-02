@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:06:36 by ebouther          #+#    #+#             */
-/*   Updated: 2015/11/23 14:28:38 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 12:18:38 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 char	*ft_strdup(const char *s)
 {
-	size_t	len;
 	char	*cpy;
 
-	len = ft_strlen(s);
-	cpy = (char *)malloc(sizeof(*cpy) * (len + 1));
-	if (!cpy)
+	if (s == NULL ||
+		(cpy = (char *)malloc(sizeof(*cpy) * (ft_strlen(s) + 1))) == NULL)
 		return (NULL);
 	return (ft_strcpy(cpy, s));
 }

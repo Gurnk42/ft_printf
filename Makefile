@@ -5,6 +5,9 @@ CFLAGS = -Wall -Wextra -Werror $(INCLUDE)
 SRCS = ft_printf.c \
 	utils.c \
 	padding.c \
+	flags.c \
+	precision.c \
+	conversion.c \
 	./libft/ft_memset.c \
 	./libft/ft_bzero.c \
 	./libft/ft_memcpy.c \

@@ -10,6 +10,6 @@ int main()
 	printf("\n-----------------------------------------------\n");
 	printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
 	printf("\nTEST:\n");
-	ft_printf("STR : '%20s'", "123456789");
+	ft_printf("STR : '%s'", NULL);
 	return (0);
 }

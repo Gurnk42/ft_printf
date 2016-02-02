@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:06:13 by ebouther          #+#    #+#             */
-/*   Updated: 2015/11/23 13:31:07 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 11:57:38 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_putstr(char const *s)
 {
+	if (s == NULL)
+		ft_putstr((char *)"(null)");
 	while (*s)
 		ft_putchar(*s++);
 }
