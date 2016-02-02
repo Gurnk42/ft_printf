@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 22:57:27 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 00:18:53 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	i = 0;
 	tmp = NULL;	
 	ret = NULL;
-	if (ft_strchr("hljz sSpdDioOuUxXcC% .1234567890#", str[i]) == NULL)
+	if (ft_strchr("hljz sSpdDioOuUxXcC% .1234567890 #0-+", str[i]) == NULL)
 		return (ft_strnew(0));
 	while (str[i])
 	{
@@ -33,7 +33,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			conv->conversion_pos = i;
 			break ;
 		}
-		else if (ft_strchr("hljz .1234567890#", str[i]) == NULL)
+		else if (ft_strchr("hljz .1234567890 #0-+", str[i]) == NULL)
 			break ;
 		i++;
 	}
@@ -62,15 +62,16 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		}
 	}
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
-		ret = ft_itoa((int)va_arg(*(e->ap), int));
+		// PLEASE RENAN, YOUR SIGNED LONG LONG T_T
+		ret = ft_itoa((long long)va_arg(*(e->ap), long long));
 	else if (conv->conversion == 'u' || conv->conversion == 'U')
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789");
 	else if (conv->conversion == 'x')
-		ret = ft_lltoa_base((unsigned long long)va_arg(*(e->ap),
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789abcdef");
 	else if (conv->conversion == 'X')
-		ret = ft_lltoa_base((unsigned long long)va_arg(*(e->ap),
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789ABCDEF");
 	else if (conv->conversion == 'p')
 	{
@@ -88,7 +89,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	else if (conv->conversion == 'D')
 		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long), "0123456789");
 	else if (conv->conversion == 'o' || conv->conversion == 'O')
-		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long long),
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
 				(char *)"01234567");
 	return (ret);
 }

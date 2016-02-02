@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 22:35:37 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 23:36:13 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_init_conv(t_conv *conv)
 	conv->flag = ft_strnew(0);
 	conv->flag_pos = -1;
 	conv->padding = ft_strnew(0);
+	conv->padding_pos = -1;
 }
 
 static void	ft_init_env(char *s, va_list *ap, t_env *e)

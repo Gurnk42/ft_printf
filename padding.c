@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 22:46:15 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 00:14:36 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 			else
 				*padding = ft_strjoin_free(*padding, ft_strdup("0"));
 		}
+		else if (ft_strchr(conv->flag, '-') != NULL)
+		{
+			if (**ret == '-' && *i == 0)
+			{
+				*padding = ft_strjoin_free(*padding, ft_strdup("-"));
+				*offset = 1;
+				(*len)++;
+			}
+			else
+				*padding = ft_strjoin_free(*padding, ft_strdup(" "));
+		}
 		else
 			*padding = ft_strjoin_free(*padding, ft_strdup(" "));
 	}
@@ -38,7 +49,7 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 
 static void	ft_do_padding(char **ret, t_conv *conv)
 {
-	int	i;
+	int		i;
 	char	*tmp2;
 	char	*tmp;
 	char	*padding;
@@ -57,7 +68,10 @@ static void	ft_do_padding(char **ret, t_conv *conv)
 			ft_padding_switch(ret, conv, &i, &padding, &offset, &len);
 			i++;
 		}
-	*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
+	if (ft_strchr(conv->flag, '-') != NULL)
+		*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
+	else
+		*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
 	ft_strdel(&tmp);
 	ft_strdel(&tmp2);
 }
@@ -81,7 +95,11 @@ char	*ft_get_padding(char *str, t_env *e)
 			{
 				if (((conv.precision_pos != -1) && ((i + n) < conv.precision_pos))
 						|| (conv.precision_pos == -1))
+				{
+					if (conv.padding_pos == -1)
+						conv.padding_pos = i + n;
 					conv.padding = ft_strjoin_free(conv.padding, ft_char_to_str(str[i + n]));
+				}
 				n++;
 			}
 			break;
@@ -101,6 +119,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("FLAGS : '%s'\n", conv.flag);
 	printf("FLAG_POS : '%d'\n", conv.flag_pos);
 	printf("PADDING : '%s'\n", conv.padding);
+	printf("PADDING_POS : '%d'\n", conv.padding_pos);
 	printf("\n");
 	//ft_strdel(&conv.precision);
 #endif
