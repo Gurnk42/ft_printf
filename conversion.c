@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 16:59:36 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 17:47:38 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	i = 0;
 	tmp = NULL;	
 	ret = NULL;
-	//printf("STR[0] : '%c'\n", str[0]);
 	if (ft_strchr("sSpdDioOuUxXcC% .1234567890#", str[i]) == NULL)
 		return (ft_strnew(0));
 	while (str[i])
@@ -41,7 +40,10 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	if (conv->conversion == 0)
 		return (NULL);
 	else if (conv->conversion == 'c')
+	{
 		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
+		//printf("RET : '%s'\n", ret);
+	}
 	else if (conv->conversion == 's')
 	{
 		if ((ret = ft_strdup((char *)va_arg(*(e->ap), char *))) == NULL)
@@ -53,7 +55,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
 		ret = ft_itoa((int)va_arg(*(e->ap), int));
 	else if (conv->conversion == 'u')
-		ret = ft_itoa((int)va_arg(*(e->ap), unsigned int));
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned int), "0123456789");
 	else if (conv->conversion == 'x')
 		ret = ft_itoa_base((unsigned int)va_arg(*(e->ap),
 					unsigned int), 16);
@@ -69,5 +71,6 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	}
 	else if (conv->conversion == '%')
 		ret = ft_strdup("%");
+	else if (conv->conversion == '')
 	return (ret);
 }

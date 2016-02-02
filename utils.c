@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 20:05:07 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 09:51:32 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 17:40:15 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ char	*ft_char_to_str(char c)
 {
 	char	*ret;
 
-	ret = ft_strnew(1);
-	*ret = c;
+	if (c != 0)
+	{
+		ret = ft_strnew(1);
+		*ret = c;
+	}
+	else
+		ret = ft_strdup("0x00");
 	return (ret);
 }
 
@@ -41,4 +46,26 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	ft_strdel(&s1);
 	ft_strdel(&s2);
 	return (join);
+}
+
+int		ft_putstr_0(char *str)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (str[i])
+	{
+		if (ft_strncmp((const char *)(str + i), "0x00", 4) == 0)
+		{
+			ret++;
+			ft_putchar('\0');
+			i += 3;
+		}
+		else
+			ft_putchar(str[i]);
+		i++;
+	}
+	return (ret);
 }

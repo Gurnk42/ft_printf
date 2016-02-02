@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 12:59:32 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/02 17:40:22 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_init_conv(t_conv *conv);
 */
 char	*ft_char_to_str(char c);
 char	*ft_strjoin_free(char *s1, char *s2);
+int		ft_putstr_0(char *str);
 
 /*
 ** conversion.c
