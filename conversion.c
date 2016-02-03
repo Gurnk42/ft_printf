@@ -6,11 +6,40 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 18:42:16 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 19:06:10 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+char	*ft_S_conv(t_env *e)
+{
+	char	*buf;
+	char	*ret;
+	int		i;
+	wchar_t	*wstr;
+
+	i = 0;
+	ret = ft_strnew(0);
+	buf = ft_strnew(4);
+	if ((wstr = (wchar_t *)va_arg(*(e->ap), wchar_t *)) == NULL)
+		ret = ft_strdup("(null)");
+	else
+	{
+		while (wstr[i])
+		{
+			if (ft_utf8_encode(buf, wstr[i]))
+				ret = ft_strjoin_free(ret, (wstr[i] == '\0') ?
+						ft_strdup("0x00") : ft_char_to_str(wstr[i]));
+			else
+				ret = ft_strjoin_free(ret, (((*buf) == '\0') ?
+							ft_strdup("0x00") : ft_strdup(buf)));
+			i++;
+		}
+	}
+	ft_strdel(&buf);
+	return (ret);
+}
 
 char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 {
@@ -18,7 +47,6 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	char	*ret;
 	int		i;
 	char	*buf;
-	wchar_t	*wstr;
 
 	buf = NULL;
 	i = 0;
@@ -57,7 +85,20 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		}
 	}
 	if (conv->conversion == 'c')
-		ret = ft_char_to_str((char)va_arg(*(e->ap), int));
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+		{
+			buf = ft_strnew(4);
+			ft_utf8_encode(buf, (wchar_t)va_arg(*(e->ap), wchar_t));
+			if (*buf == '\0')
+				ret = ft_strdup("0x00");
+			else
+				ret = ft_strdup(buf);
+			ft_strdel(&buf);
+		}
+		else
+			ret = ft_char_to_str((char)va_arg(*(e->ap), int));
+	}
 	else if (conv->conversion == 'C')
 	{
 		buf = ft_strnew(4);
@@ -70,34 +111,19 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	}
 	else if (conv->conversion == 's')
 	{
-		if ((ret = ft_strdup((char *)va_arg(*(e->ap), char *))) == NULL)
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_S_conv(e);
+		else
 		{
-			ft_memdel((void **)&ret);
-			ret = ft_strdup("(null)");
+			if ((ret = ft_strdup((char *)va_arg(*(e->ap), char *))) == NULL)
+			{
+				ft_memdel((void **)&ret);
+				ret = ft_strdup("(null)");
+			}
 		}
 	}
 	else if (conv->conversion == 'S')
-	{
-		ret = ft_strnew(0);
-		buf = ft_strnew(4);
-		if ((wstr = (wchar_t *)va_arg(*(e->ap), wchar_t *)) == NULL)
-			ret = ft_strdup("(null)");
-		else
-		{
-			i = 0;
-			while (wstr[i])
-			{
-				if (ft_utf8_encode(buf, wstr[i]))
-					ret = ft_strjoin_free(ret, (wstr[i] == '\0') ?
-							ft_strdup("0x00") : ft_char_to_str(wstr[i]));
-				else
-					ret = ft_strjoin_free(ret, (((*buf) == '\0') ?
-								ft_strdup("0x00") : ft_strdup(buf)));
-				i++;
-			}
-		}
-		ft_strdel(&buf);
-	}
+		ret = ft_S_conv(e);
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
