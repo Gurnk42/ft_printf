@@ -15,6 +15,6 @@ int main()
 	printf("{%10R}");
 	//printf("{%8c}", 0);
 	printf("_______\n");
-	len = ft_printf("{%10R}", 0);
+	len = ft_printf("{%10R}");
 	return (len);
 }

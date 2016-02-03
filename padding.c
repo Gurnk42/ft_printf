@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 12:23:25 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 13:12:53 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,19 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 		*padding = ft_strjoin_free(*padding, ft_strdup(" "));
 }
 
-static void	ft_do_padding(char **ret, t_conv *conv)
+static void	ft_do_padding(char **ret, t_conv *conv, int len)
 {
 	int		i;
 	char	*tmp2;
 	char	*tmp;
 	char	*padding;
 	int		offset;
-	int		len;
 
 	i = 0;
 	offset = 0;
 	tmp2 = NULL;
 	tmp = NULL;
-	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
+//	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
 	//TEST FOR DAT F***ING '\0'
 	while ((*ret)[i])
 	{
@@ -111,7 +110,7 @@ char	*ft_get_padding(char *str, t_env *e)
 				}
 				n++;
 			}
-			//GET OFFSET THERE TO START AFTER PADDING ETC.
+			//GET OFFSET THERE TO START AFTER PADDING ETC. (ft_strlen(padding))
 			break;
 		}
 		i++;
@@ -130,12 +129,19 @@ char	*ft_get_padding(char *str, t_env *e)
 	//ft_strdel(&conv.precision);
 #endif
 
-	if (ret == NULL)
-		ret = ft_strnew(0);
-	ft_do_padding(&ret, &conv);
 	//else
 	//	return (ft_strnew(0));
-	e->offset = conv.conversion_pos + 2;
+	if (ret == NULL)
+	{
+		ret = ft_strnew(0);
+		ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)) - 1);
+		e->offset = ft_strlen(conv.padding) + 1;
+	}
+	else
+	{
+		ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
+		e->offset = conv.conversion_pos + 2;
+	}
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);
 	ft_strdel(&conv.precision);
