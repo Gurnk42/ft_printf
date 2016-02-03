@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 19:06:10 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 21:07:34 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	*ft_S_conv(t_env *e)
 		{
 			if (ft_utf8_encode(buf, wstr[i]))
 				ret = ft_strjoin_free(ret, (wstr[i] == '\0') ?
-						ft_strdup("0x00") : ft_char_to_str(wstr[i]));
+						ft_strdup("\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b") : ft_char_to_str(wstr[i]));
 			else
 				ret = ft_strjoin_free(ret, (((*buf) == '\0') ?
-							ft_strdup("0x00") : ft_strdup(buf)));
+							ft_strdup("\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b") : ft_strdup(buf)));
 			i++;
 		}
 	}
@@ -91,7 +91,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			buf = ft_strnew(4);
 			ft_utf8_encode(buf, (wchar_t)va_arg(*(e->ap), wchar_t));
 			if (*buf == '\0')
-				ret = ft_strdup("0x00");
+				ret = ft_strdup("\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b");
 			else
 				ret = ft_strdup(buf);
 			ft_strdel(&buf);
@@ -104,7 +104,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		buf = ft_strnew(4);
 		ft_utf8_encode(buf, (wchar_t)va_arg(*(e->ap), wchar_t));
 		if (*buf == '\0')
-			ret = ft_strdup("0x00");
+			ret = ft_strdup("\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b");
 		else
 			ret = ft_strdup(buf);
 		ft_strdel(&buf);
@@ -145,7 +145,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789");
-		else if (ft_strcmp(conv->modifier, "ll") == 0)
+		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0 || ft_strcmp(conv->modifier, "z") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789");
 		else if (ft_strcmp(conv->modifier, "h") == 0)
 			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789");
@@ -162,7 +162,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789abcdef");
-		else if (ft_strcmp(conv->modifier, "ll") == 0)
+		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0 || ft_strcmp(conv->modifier, "z") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789abcdef");
 		else if (ft_strcmp(conv->modifier, "h") == 0)
 			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789abcdef");
@@ -176,7 +176,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789ABCDEF");
-		else if (ft_strcmp(conv->modifier, "ll") == 0)
+		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0 || ft_strcmp(conv->modifier, "z") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789ABCDEF");
 		else if (ft_strcmp(conv->modifier, "h") == 0)
 			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");
@@ -205,7 +205,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "01234567");
-		else if (ft_strcmp(conv->modifier, "ll") == 0)
+		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0 || ft_strcmp(conv->modifier, "z") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "01234567");
 		else if (ft_strcmp(conv->modifier, "h") == 0)
 			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "01234567");

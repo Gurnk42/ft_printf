@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 19:06:15 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 21:21:02 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		ft_printf(char *s, ...)
 			ft_strdel(&env.tmp);
 		}
 		len = ft_strlen(env.res);
-		len -= ft_putstr_0(env.res) * 3;
+		len -= ft_putstr_0(env.res) * 15;
 	}
 	va_end(*(env.ap));
 	ft_strdel(&env.res);

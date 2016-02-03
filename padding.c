@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 19:06:11 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 21:09:49 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, int *offset, int *len)
 {
-	if (conv->conversion == 'd' || conv->conversion == 'i' || conv->conversion == 'x')
+	if (ft_strchr("dixXcsp", conv->conversion) != NULL)
 	{
 		if (ft_strchr(conv->flag, '0') != NULL)
 		{
@@ -63,8 +63,8 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	//TEST FOR DAT F***ING '\0'
 	while ((*ret)[i])
 	{
-		if (ft_strncmp((const char *)((*ret) + i), "0x00", 4) == 0)
-			len += 3;
+		if (ft_strncmp((const char *)((*ret) + i), "\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b", 16) == 0)
+			len += 15;
 		i++;
 	}
 	i = 0;
@@ -75,10 +75,17 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 			ft_padding_switch(ret, conv, &i, &padding, &offset, &len);
 			i++;
 		}
-	if (ft_strchr(conv->flag, '-') != NULL)
-		*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
+	if (ft_strchr(conv->flag, '0') != NULL && conv->conversion == 'p')
+	{
+		*ret = ft_strjoin((tmp2 = *ret), tmp = padding);
+	}
 	else
-		*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
+	{
+		if (ft_strchr(conv->flag, '-') != NULL)
+			*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
+		else
+			*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
+	}
 	ft_strdel(&tmp);
 	ft_strdel(&tmp2);
 }
@@ -127,7 +134,6 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("PADDING : '%s'\n", conv.padding);
 	printf("PADDING_POS : '%d'\n", conv.padding_pos);
 	printf("\n");
-	//ft_strdel(&conv.precision);
 #endif
 	if (ret == NULL)
 	{

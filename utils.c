@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 20:05:07 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 19:06:15 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 21:09:25 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ char	*ft_char_to_str(char c)
 		*ret = c;
 	}
 	else
-		ret = ft_strdup("0x00");
+		ret = ft_strdup(
+		"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b");
 	return (ret);
 }
 
@@ -57,11 +58,13 @@ int		ft_putstr_0(char *str)
 	ret = 0;
 	while (str[i])
 	{
-		if (ft_strncmp((const char *)(str + i), "0x00", 4) == 0)
+		if (ft_strncmp((const char *)(str + i),
+	"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b",
+	16) == 0)
 		{
 			ret++;
 			ft_putchar('\0');
-			i += 3;
+			i += 15;
 		}
 		else
 			ft_putchar(str[i]);
