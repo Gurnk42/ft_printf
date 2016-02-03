@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 18:14:29 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 18:42:16 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789");
 		else
-			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-						unsigned long long), "0123456789");
+			ret = ft_llntoa_base((unsigned int)va_arg(*(e->ap),
+						unsigned int), "0123456789");
 	}
 	else if (conv->conversion == 'U')
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
@@ -143,8 +143,8 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789abcdef");
 		else
-			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-						unsigned long long), "0123456789abcdef");
+			ret = ft_llntoa_base((unsigned int)va_arg(*(e->ap),
+						unsigned int), "0123456789abcdef");
 	}
 	else if (conv->conversion == 'X')
 	{
@@ -157,8 +157,8 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");
 		else
-			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-						unsigned long long), "0123456789ABCDEF");
+			ret = ft_llntoa_base((unsigned int)va_arg(*(e->ap),
+						unsigned int), "0123456789ABCDEF");
 	}
 	else if (conv->conversion == 'p')
 	{
@@ -186,11 +186,11 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "01234567");
 		else
-			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
+			ret = ft_llntoa_base((unsigned int)va_arg(*(e->ap), unsigned int),
 					(char *)"01234567");
 	}
 	else if (conv->conversion == 'O')
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
+		ret = ft_llntoa_base((unsigned long)va_arg(*(e->ap), unsigned long),
 				(char *)"01234567");
 	return (ret);
 }
