@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 00:23:00 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 00:39:41 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	//TEST FOR DAT F***ING '\0'
 	while ((*ret)[i])
 	{
-		if (ft_strncmp((const char *)((*ret) + i), "\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b", 16) == 0)
+		if (ft_strncmp((const char *)((*ret) + i),
+		"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b", 16) == 0)
 			len += 15;
 		i++;
 	}
@@ -77,8 +78,18 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 		}
 	if (ft_strchr(conv->flag, '0') != NULL && conv->conversion == 'p')
 		*ret = ft_strjoin((tmp2 = *ret), tmp = padding);
-	else if (ft_strchr(conv->flag, '#') != NULL && conv->conversion == 'o')
+	else if (ft_strchr(conv->flag, '#') != NULL
+		&& ft_strchr("Oo", conv->conversion) != NULL
+			&& ft_strcmp(*ret, "0") != 0)
 		*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0"), padding), *ret);
+	else if (ft_strchr(conv->flag, '#') != NULL
+		&& ft_strchr("x", conv->conversion) != NULL
+			&& ft_strcmp(*ret, "0") != 0)
+		*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0x"), padding), *ret);
+	else if (ft_strchr(conv->flag, '#') != NULL
+		&& ft_strchr("X", conv->conversion) != NULL
+			&& ft_strcmp(*ret, "0") != 0)
+		*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0X"), padding), *ret);
 	else
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
