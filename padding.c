@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 21:09:49 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 23:50:37 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, int *offset, int *len)
 {
-	if (ft_strchr("dixXcsp", conv->conversion) != NULL)
+	if ((ft_strchr("dixXcsSp", conv->conversion) != NULL) || (conv->conversion_pos == -1))
 	{
 		if (ft_strchr(conv->flag, '0') != NULL)
 		{
@@ -29,7 +29,7 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 			else
 				*padding = ft_strjoin_free(*padding, ft_strdup("0"));
 		}
-		else if (ft_strchr(conv->flag, '-') != NULL)
+		else if (ft_strchr(conv->flag, '-') != NULL)// && ft_strchr("dixXcsSp", conv->conversion) != NULL)
 		{
 			if (**ret == '-' && *i == 0)
 			{
@@ -76,13 +76,11 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 			i++;
 		}
 	if (ft_strchr(conv->flag, '0') != NULL && conv->conversion == 'p')
-	{
 		*ret = ft_strjoin((tmp2 = *ret), tmp = padding);
-	}
 	else
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
-			*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
+				*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
 		else
 			*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
 	}
@@ -104,7 +102,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	{
 		n = 0;
 		if ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
-				|| conv.conversion_pos == -1)
+					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
 		{
 			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
 					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
@@ -144,6 +142,14 @@ char	*ft_get_padding(char *str, t_env *e)
 		{
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)) - 1);
 			e->offset = ft_strlen(conv.padding) + 1;
+		}
+		//for printf("{%-15Z}", 123)
+		else if (ft_strchr(conv.flag, '-') != NULL && conv.precision_pos == -1
+				&& conv.conversion_pos == -1)
+		{
+			ret = ft_char_to_str(str[ft_strlen(conv.padding) + ft_strlen(conv.flag)]);
+			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
+			e->offset = ft_strlen(conv.padding) + ft_strlen(conv.flag) + 2;
 		}
 	}
 	else
