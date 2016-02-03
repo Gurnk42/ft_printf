@@ -14,8 +14,11 @@ int main()
 	//ft_printf("P : '%p'", &x);
 	//printf("P : '%p'", &x);
 	//printf("%i\n", (long)(-2147483648));
-	printf("{%-10d}\n", 42);
+	//printf("CONV: '%s'\n", ft_lltoa_base(-42, "0123456789"));
+	printf("%ld%ld\n", 0, 42);
+	//printf("{%-10d}\n", -42);
 	printf("_______\n");
-	len = ft_printf("{%-10d}\n", 42);
+	//len = ft_printf("{%ld}\n", (long)2147483647 + 1);
+	ft_printf("%ld%ld\n", 0, 42);
 	return (len);
 }

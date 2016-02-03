@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 00:20:20 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 11:40:14 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	if (conv->conversion == 0)
 		return (NULL);
 	// GET MODIFIER
-	if (conv->conversion_pos >= 2)
+	if (conv->conversion_pos >= 1)
 	{
 		i = 0;
-		while (i < 2)
+		while (i <= conv->conversion_pos)
 		{
-			if (ft_strchr("hljz", str[(conv->conversion_pos - 2) + i]) != NULL)
+			//DO NOT STRCHR to protect from '\0'
+			if (str[(conv->conversion_pos - 2) + i] == 'h' ||
+				str[(conv->conversion_pos - 2) + i] == 'l' ||
+					str[(conv->conversion_pos - 2) + i] == 'j' ||
+						str[(conv->conversion_pos - 2) + i] == 'z')
 				conv->modifier = ft_strjoin_free(conv->modifier,
 						ft_char_to_str(str[(conv->conversion_pos - 2) + i]));
 			i++;
@@ -62,17 +66,67 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		}
 	}
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
-		// PLEASE RENAN, YOUR SIGNED LONG LONG T_T
-		ret = ft_itoa((long long)va_arg(*(e->ap), long long));
-	else if (conv->conversion == 'u' || conv->conversion == 'U')
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_lltoa_base((long long)va_arg(*(e->ap), long int), "0123456789");
+		else if (ft_strcmp(conv->modifier, "ll") == 0)
+			ret = ft_lltoa_base((long long)va_arg(*(e->ap), long long int), "0123456789");
+		else if (ft_strcmp(conv->modifier, "h") == 0)
+			ret = ft_lltoa_base((short int)va_arg(*(e->ap), int), "0123456789");
+		else if (ft_strcmp(conv->modifier, "hh") == 0)
+			ret = ft_lltoa_base((signed char)va_arg(*(e->ap), int), "0123456789");
+		else if (ft_strcmp(conv->modifier, "j") == 0)
+			ret = ft_lltoa_base((intmax_t)va_arg(*(e->ap), unsigned long long), "0123456789");
+		else if (ft_strcmp(conv->modifier, "z") == 0)
+			ret = ft_lltoa_base((size_t)va_arg(*(e->ap), unsigned long long), "0123456789");
+		else
+			ret = ft_itoa((int)va_arg(*(e->ap), int));
+	}
+	else if (conv->conversion == 'u')
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789");
+		else if (ft_strcmp(conv->modifier, "ll") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789");
+		else if (ft_strcmp(conv->modifier, "h") == 0)
+			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789");
+		else if (ft_strcmp(conv->modifier, "hh") == 0)
+			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789");
+		else
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
+					unsigned long long), "0123456789");
+	}
+	else if (conv->conversion == 'U')
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789");
 	else if (conv->conversion == 'x')
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789abcdef");
+		else if (ft_strcmp(conv->modifier, "ll") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789abcdef");
+		else if (ft_strcmp(conv->modifier, "h") == 0)
+			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789abcdef");
+		else if (ft_strcmp(conv->modifier, "hh") == 0)
+			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789abcdef");
+		else
+			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789abcdef");
+	}
 	else if (conv->conversion == 'X')
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789ABCDEF");
+		else if (ft_strcmp(conv->modifier, "ll") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789ABCDEF");
+		else if (ft_strcmp(conv->modifier, "h") == 0)
+			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");
+		else if (ft_strcmp(conv->modifier, "hh") == 0)
+			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");
+		else
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
 					unsigned long long), "0123456789ABCDEF");
+	}
 	else if (conv->conversion == 'p')
 	{
 		if ((ret = ft_llntoa_base((unsigned long)va_arg(*(e->ap), void *),
@@ -88,8 +142,22 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		ret = ft_strdup("%");
 	else if (conv->conversion == 'D')
 		ret = ft_lltoa_base((long long)va_arg(*(e->ap), long), "0123456789");
-	else if (conv->conversion == 'o' || conv->conversion == 'O')
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
+	else if (conv->conversion == 'o')
+	{
+		if (ft_strcmp(conv->modifier, "l") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "01234567");
+		else if (ft_strcmp(conv->modifier, "ll") == 0)
+			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "01234567");
+		else if (ft_strcmp(conv->modifier, "h") == 0)
+			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "01234567");
+		else if (ft_strcmp(conv->modifier, "hh") == 0)
+			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "01234567");
+		else
+			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
 				(char *)"01234567");
+	}
+	else if (conv->conversion == 'O')
+		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
+			(char *)"01234567");
 	return (ret);
 }
