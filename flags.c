@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:12:25 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 00:08:49 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 11:50:36 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char			*ft_get_flags(char *str, t_conv *conv, t_env *e)
 
 	i = 0;
 	ret = ft_get_precision(str, conv, e);
-	while (str[i] && str[i] != '%')
+	while (ft_strchr("#0- +", str[i]))
 	{
 		n = 0;
 		if (ft_strchr("#0- +", str[i + n]))

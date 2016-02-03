@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 00:14:36 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 12:23:25 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ static void	ft_do_padding(char **ret, t_conv *conv)
 	tmp2 = NULL;
 	tmp = NULL;
 	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
+	//TEST FOR DAT F***ING '\0'
+	while ((*ret)[i])
+	{
+		if (ft_strncmp((const char *)((*ret) + i), "0x00", 4) == 0)
+			len += 3;
+		i++;
+	}
+	i = 0;
 	padding = ft_strnew(0);
 	if (ft_strcmp(conv->padding, "") != 0)
 		while (i < len)
@@ -89,9 +97,10 @@ char	*ft_get_padding(char *str, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		if (ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
+		if ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos)) || conv.conversion_pos == -1)
 		{
-			while (ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
+			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
+			|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
 			{
 				if (((conv.precision_pos != -1) && ((i + n) < conv.precision_pos))
 						|| (conv.precision_pos == -1))
@@ -102,14 +111,11 @@ char	*ft_get_padding(char *str, t_env *e)
 				}
 				n++;
 			}
+			//GET OFFSET THERE TO START AFTER PADDING ETC.
 			break;
 		}
 		i++;
 	}
-	if (ret != NULL)
-		ft_do_padding(&ret, &conv);
-	else
-		return (ft_strnew(0));
 #ifdef EBUG
 	printf("MODIFIER : '%s'\n", conv.modifier);
 	printf("PRECISION : '%s'\n", conv.precision);
@@ -123,6 +129,12 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("\n");
 	//ft_strdel(&conv.precision);
 #endif
+
+	if (ret == NULL)
+		ret = ft_strnew(0);
+	ft_do_padding(&ret, &conv);
+	//else
+	//	return (ft_strnew(0));
 	e->offset = conv.conversion_pos + 2;
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);

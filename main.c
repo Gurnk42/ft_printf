@@ -10,15 +10,11 @@ int main()
 	//ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
 	//printf("\n-----------------------------------------------\n");
 	//printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
-	//printf("\nTEST:\n");
-	//ft_printf("P : '%p'", &x);
-	//printf("P : '%p'", &x);
-	//printf("%i\n", (long)(-2147483648));
-	//printf("CONV: '%s'\n", ft_lltoa_base(-42, "0123456789"));
-	printf("%ld%ld\n", 0, 42);
-	//printf("{%-10d}\n", -42);
+	//printf("{%10d}", 42);
+	setbuf(stdout, NULL);
+	printf("{%10R}");
+	//printf("{%8c}", 0);
 	printf("_______\n");
-	//len = ft_printf("{%ld}\n", (long)2147483647 + 1);
-	ft_printf("%ld%ld\n", 0, 42);
+	len = ft_printf("{%10R}", 0);
 	return (len);
 }
