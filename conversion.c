@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 17:24:35 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 18:14:29 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	char	*ret;
 	int		i;
 	char	*buf;
-//	wchar_t	*wstr;
+	wchar_t	*wstr;
 
 	buf = NULL;
 	i = 0;
@@ -48,9 +48,9 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		{
 			//DO NOT STRCHR to protect from '\0'
 			if (str[(conv->conversion_pos - 2) + i] == 'h' ||
-				str[(conv->conversion_pos - 2) + i] == 'l' ||
+					str[(conv->conversion_pos - 2) + i] == 'l' ||
 					str[(conv->conversion_pos - 2) + i] == 'j' ||
-						str[(conv->conversion_pos - 2) + i] == 'z')
+					str[(conv->conversion_pos - 2) + i] == 'z')
 				conv->modifier = ft_strjoin_free(conv->modifier,
 						ft_char_to_str(str[(conv->conversion_pos - 2) + i]));
 			i++;
@@ -76,18 +76,28 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			ret = ft_strdup("(null)");
 		}
 	}
-/*	else if (conv->conversion == 'S')
+	else if (conv->conversion == 'S')
 	{
 		ret = ft_strnew(0);
-		wstr = (wchar_t *)va_arg(*(e->ap), wchar_t *);
-		i = 0;
-		while (wstr[i])
+		buf = ft_strnew(4);
+		if ((wstr = (wchar_t *)va_arg(*(e->ap), wchar_t *)) == NULL)
+			ret = ft_strdup("(null)");
+		else
 		{
-			ft_utf8_encode(buf, wstr[i]);
-			ret = ft_strjoin(ret, ft_strdup(buf)); //LEAKS !!!
-			i++;
+			i = 0;
+			while (wstr[i])
+			{
+				if (ft_utf8_encode(buf, wstr[i]))
+					ret = ft_strjoin_free(ret, (wstr[i] == '\0') ?
+							ft_strdup("0x00") : ft_char_to_str(wstr[i]));
+				else
+					ret = ft_strjoin_free(ret, (((*buf) == '\0') ?
+								ft_strdup("0x00") : ft_strdup(buf)));
+				i++;
+			}
 		}
-	}*/
+		ft_strdel(&buf);
+	}
 	else if (conv->conversion == 'd' || conv->conversion == 'i')
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
@@ -116,8 +126,8 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789");
 		else
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-					unsigned long long), "0123456789");
+			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
+						unsigned long long), "0123456789");
 	}
 	else if (conv->conversion == 'U')
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
@@ -134,7 +144,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789abcdef");
 		else
 			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-					unsigned long long), "0123456789abcdef");
+						unsigned long long), "0123456789abcdef");
 	}
 	else if (conv->conversion == 'X')
 	{
@@ -147,13 +157,13 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 		else if (ft_strcmp(conv->modifier, "hh") == 0)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");
 		else
-		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
-					unsigned long long), "0123456789ABCDEF");
+			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap),
+						unsigned long long), "0123456789ABCDEF");
 	}
 	else if (conv->conversion == 'p')
 	{
 		if ((ret = ft_llntoa_base((unsigned long)va_arg(*(e->ap), void *),
-			(char *)"0123456789abcdef")) == NULL)
+						(char *)"0123456789abcdef")) == NULL)
 		{
 			ft_memdel((void **)&ret);
 			ret = ft_strdup("(null)");
@@ -177,10 +187,10 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			ret = ft_llntoa_base((unsigned char)va_arg(*(e->ap), unsigned int), "01234567");
 		else
 			ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
-				(char *)"01234567");
+					(char *)"01234567");
 	}
 	else if (conv->conversion == 'O')
 		ret = ft_llntoa_base((unsigned long long)va_arg(*(e->ap), unsigned long long),
-			(char *)"01234567");
+				(char *)"01234567");
 	return (ret);
 }
