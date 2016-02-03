@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 13:12:53 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 16:01:57 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, int *offset, int *len)
 {
-	if (conv->conversion == 'd' || conv->conversion == 'i')
+	if (conv->conversion == 'd' || conv->conversion == 'i' || conv->conversion == 'x')
 	{
 		if (ft_strchr(conv->flag, '0') != NULL)
 		{
@@ -59,7 +59,7 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	offset = 0;
 	tmp2 = NULL;
 	tmp = NULL;
-//	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
+	//	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
 	//TEST FOR DAT F***ING '\0'
 	while ((*ret)[i])
 	{
@@ -96,10 +96,11 @@ char	*ft_get_padding(char *str, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		if ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos)) || conv.conversion_pos == -1)
+		if ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
+				|| conv.conversion_pos == -1)
 		{
 			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
-			|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
+					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
 			{
 				if (((conv.precision_pos != -1) && ((i + n) < conv.precision_pos))
 						|| (conv.precision_pos == -1))
@@ -128,20 +129,26 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("\n");
 	//ft_strdel(&conv.precision);
 #endif
-
-	//else
-	//	return (ft_strnew(0));
 	if (ret == NULL)
 	{
 		ret = ft_strnew(0);
-		ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)) - 1);
-		e->offset = ft_strlen(conv.padding) + 1;
+		// for {%10R} and "% Zooo"
+		if (conv.flag_pos == -1 && conv.precision_pos == -1
+				&& conv.conversion_pos == -1)
+		{
+			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)) - 1);
+			e->offset = ft_strlen(conv.padding) + 1;
+		}
 	}
 	else
 	{
 		ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 		e->offset = conv.conversion_pos + 2;
 	}
+	//256
+	//if (ft_strcmp(conv.flag, " ") == 0 && conv.precision_pos == -1
+	//	&& ft_strcmp(conv.conversion_pos) != -1 && conv.padding_pos == -1)
+	//	ret = ft_strjoin_free(ft_strdup(" "), ret);
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);
 	ft_strdel(&conv.precision);

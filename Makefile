@@ -74,6 +74,7 @@ SRCS = ft_printf.c \
 	./libft/ft_isprime.c \
 	./libft/ft_sqrt.c \
 	./libft/utils.c \
+	./libft/ft_uni_convert.c \
 	./libft/ft_ll_itoa_base.c
 
 OBJS = $(SRCS:.c=.o)

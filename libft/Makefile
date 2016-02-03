@@ -6,7 +6,7 @@
 #    By: ebouther <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/25 18:24:09 by ebouther          #+#    #+#              #
-#    Updated: 2016/02/02 15:09:53 by ebouther         ###   ########.fr        #
+#    Updated: 2016/02/03 16:10:37 by ebouther         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRCS = 	ft_memset.c \
 	ft_isprime.c \
 	ft_sqrt.c \
 	ft_ll_itoa_base.c \
+	ft_uni_convert.c \
 	utils.c
 
 OBJS = $(SRCS:.c=.o)

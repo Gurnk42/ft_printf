@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:08:57 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/02 12:56:34 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/03 15:57:24 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char				*ft_itoa(int n);
 char				*ft_itoa_base(int value, int base);
 char				*ft_lltoa_base(long long n, char *base);
 char				*ft_llntoa_base(unsigned long long n, char *base);
+int					ft_utf8_encode(char *buf, int codepoint);
 
 /*
 ** Memory:
@@ -122,6 +123,5 @@ int					ft_tolower(int c);
 ** Utils:
 */
 char				*ft_toa_bis(int *limit, char *res);
-
 
 #endif
