@@ -62,8 +62,8 @@ int main()
 	printf("\n_______\n");
 	ft_printf("{%05.S}", L"42 c est cool");*/
 	printf("\n_______\n");
-	printf("'%#.x', '%#.0x'", 0, 0);
+	printf("%.p, %.0p", 0, 0);
 	ft_printf("\n_______\n");
-	ft_printf("'%#.x', '%#.0x'", 0, 0);
+	ft_printf("%.p, %.0p", 0, 0);
 	return (len);
 }

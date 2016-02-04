@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 12:42:53 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 13:56:13 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,14 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 			ret = ft_strdup("(null)");
 		}
 		else
+		{
+			if (conv->precision_pos != -1 && ft_strcmp(ret, "0") == 0)
+			{
+				ft_strdel(&ret);
+				ret = ft_strnew(0);
+			}
 			ret = ft_strjoin_free(ft_strdup("0x"), ret);
+		}
 	}
 	else if (conv->conversion == '%')
 		ret = ft_strdup("%");
