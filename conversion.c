@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 14:57:07 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:04:36 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,8 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	{
 		if (ft_strcmp(conv->modifier, "l") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long), "0123456789ABCDEF");
-		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0 || ft_strcmp(conv->modifier, "z") == 0)
+		else if (ft_strcmp(conv->modifier, "ll") == 0 || ft_strcmp(conv->modifier, "j") == 0
+				|| ft_strcmp(conv->modifier, "z") == 0)
 			ret = ft_llntoa_base((long long)va_arg(*(e->ap), unsigned long long), "0123456789ABCDEF");
 		else if (ft_strcmp(conv->modifier, "h") == 0)
 			ret = ft_llntoa_base((unsigned short)va_arg(*(e->ap), unsigned int), "0123456789ABCDEF");

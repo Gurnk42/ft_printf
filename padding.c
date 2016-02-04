@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 19:48:22 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:13:17 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	while ((*ret)[i])
 	{
 		if (ft_strncmp((const char *)((*ret) + i),
-		"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b", 16) == 0)
+					"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b", 16) == 0)
 			len += 15;
 		i++;
 	}
@@ -80,7 +80,7 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	if (ft_strchr(conv->flag, '0') != NULL && conv->conversion == 'p')
 		*ret = ft_strjoin((tmp2 = *ret), tmp = padding);
 	else if (ft_strchr(conv->flag, '#') != NULL
-		&& ft_strchr("Oo", conv->conversion) != NULL
+			&& ft_strchr("Oo", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
 	{
 		if (conv->precision_pos != -1 && ft_strlen(conv->precision) > 0 && ft_strcmp(conv->precision, "0") != 0)
@@ -89,7 +89,7 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 			*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0"), padding), *ret);
 	}
 	else if (ft_strchr(conv->flag, '#') != NULL
-		&& ft_strchr("x", conv->conversion) != NULL
+			&& ft_strchr("x", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
 	{
 		if (conv->precision_pos != -1 && ft_strcmp(*ret, "") == 0 && ft_strcmp(*ret, "0") != 0)
@@ -98,13 +98,13 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 			*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0x"), padding), *ret);
 	}
 	else if (ft_strchr(conv->flag, '#') != NULL
-		&& ft_strchr("X", conv->conversion) != NULL
+			&& ft_strchr("X", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
 		*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0X"), padding), *ret);
 	else
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
-				*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
+			*ret = ft_strjoin((tmp2 = *ret) + offset, tmp = padding);
 		else
 			*ret = ft_strjoin(tmp = padding, (tmp2 = *ret) + offset);
 	}
@@ -116,9 +116,11 @@ char	*ft_get_padding(char *str, t_env *e)
 {
 	t_conv	conv;
 	char	*ret;
+	char	*tmp;
 	int		i;
 	int		n;
 
+	tmp = NULL;
 	i = 0;
 	ft_init_conv(&conv);
 	ret = ft_get_flags(str, &conv, e);
@@ -126,7 +128,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	{
 		n = 0;
 		if (((str[i + n] > '0' && str[i + n] <= '9') && ((i + n) < conv.conversion_pos))
-					|| ((str[i + n] > '0' && str[i + n] <= '9') && conv.conversion_pos == -1))
+				|| ((str[i + n] > '0' && str[i + n] <= '9') && conv.conversion_pos == -1))
 		{
 			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
 					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
@@ -171,8 +173,8 @@ char	*ft_get_padding(char *str, t_env *e)
 				&& conv.conversion_pos == -1)
 		{
 			ret = ft_char_to_str(str[ft_strlen(conv.padding)
-				+ ft_strlen(conv.flag) + ((conv.precision_pos != -1
-				&& ft_strcmp(conv.precision, "") == 0) ? (1) : (0))]);
+					+ ft_strlen(conv.flag) + ((conv.precision_pos != -1
+							&& ft_strcmp(conv.precision, "") == 0) ? (1) : (0))]);
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 			e->offset = ft_strlen(conv.padding) + ft_strlen(conv.flag)
 				+ ((conv.precision_pos != -1 && ft_strcmp(conv.precision, "") == 0) ? (1) : (0)) + 2;
@@ -181,31 +183,27 @@ char	*ft_get_padding(char *str, t_env *e)
 	else
 	{
 		if (conv.precision_pos != -1 && ft_strchr("p", conv.conversion)
-			&& ret != NULL && ft_strcmp(conv.flag, "") == 0)
+				&& ret != NULL && ft_strcmp(conv.flag, "") == 0)
 		{
 
-		if (ft_atoi(conv.padding) > ft_atoi(conv.precision))
-		{
-			//printf("_______1________\n");
-			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
+			if (ft_atoi(conv.padding) > ft_atoi(conv.precision))
 			{
-				ret = ft_strjoin_free(ret, ft_strdup("0"));
+				while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
+				{
+					ret = ft_strjoin_free(ret, ft_strdup("0"));
+				}
+			}
+			else if (ft_strncmp(ret, "0x", 2) == 0)
+			{
+				tmp = ret;
+				ret = ft_strdup(ret + 2);
+				ft_strdel(&tmp);
+				while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
+					ret = ft_strjoin_free(ft_strdup("0"), ret);
+				ret[0] = '0';
+				ret[1] = 'x';
 			}
 		}
-		else if (ft_strncmp(ret, "0x", 2) == 0)
-		{
-			//printf("_______2______\n");
-			char *tmp = ret;
-			ret = ft_strdup(ret + 2);
-			ft_strdel(&tmp);
-			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
-				ret = ft_strjoin_free(ft_strdup("0"), ret);
-			ret[0] = '0';
-			ret[1] = 'x';
-		}
-
-		}
-
 		if (ft_strchr("di", conv.conversion) && ft_strcmp(conv.flag, " 0") == 0 && ft_strcmp(ret, "0") == 0)
 		{
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
@@ -226,6 +224,20 @@ char	*ft_get_padding(char *str, t_env *e)
 					*ret = '+';
 				}
 			}
+		}
+		else if (ft_strchr("di", conv.conversion) && ft_strchr(conv.flag, ' ') != NULL
+				&& conv.conversion_pos == 1 && conv.flag_pos == 0 && ft_atoi(ret) > 0)
+		{
+/*MODIFIER : ''
+PRECISION : ''
+PRECISION_POS : '-1'
+CONVERSION : 'd'
+CONVERSION_POS : '1'
+FLAGS : ' '
+FLAG_POS : '0'
+PADDING : ''
+PADDING_POS : '-1'*/
+			ret = ft_strjoin_free(ft_strdup(" "), ret);
 		}
 		else
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));

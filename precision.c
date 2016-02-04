@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 19:43:56 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:04:04 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,5 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 				ret = ft_strjoin_free(ft_strdup("-"), ret);
 		}
 	}
-/*	if (conv->precision_pos != -1 && ft_strchr("p", conv->conversion)
-			&& ret != NULL && ft_strcmp(conv->flag, "") == 0)
-	{
-		if (ft_atoi(conv->padding) > ft_atoi(conv->precision))
-		{
-			printf("_______1________\n");
-			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv->precision))
-			{
-				ret = ft_strjoin_free(ret, ft_strdup("0"));
-			}
-		}
-		else if (ft_strncmp(ret, "0x", 2) == 0)
-		{
-			printf("_______2______\n");
-			tmp = ret;
-			ret = ft_strdup(ret + 2);
-			ft_strdel(&tmp);
-			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv->precision))
-				ret = ft_strjoin_free(ft_strdup("0"), ret);
-			ret[0] = '0';
-			ret[1] = 'x';
-		}
-	}*/
 	return (ret);
 }
