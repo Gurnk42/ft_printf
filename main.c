@@ -61,9 +61,10 @@ int main()
 	ft_printf("%#.3o", 1);
 	printf("\n_______\n");*/
 //	printf("% d", 9999);
-	printf("%#.o, %#.0o", 0, 0);
+	len = printf("%2.9p", 1234);
 	printf("\n_______\n");
-	ft_printf("%#.o, %#.0o", 0, 0);
+	ft_printf("%2.9p", 1234);
+	ft_printf("%9.2p", 1234);
 //	ft_printf("% d", 9999);
 	return (len);
 }

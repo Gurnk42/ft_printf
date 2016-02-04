@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 19:07:11 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 19:48:22 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,33 @@ char	*ft_get_padding(char *str, t_env *e)
 		}
 	}
 	else
-	{	
+	{
+		if (conv.precision_pos != -1 && ft_strchr("p", conv.conversion)
+			&& ret != NULL && ft_strcmp(conv.flag, "") == 0)
+		{
+
+		if (ft_atoi(conv.padding) > ft_atoi(conv.precision))
+		{
+			//printf("_______1________\n");
+			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
+			{
+				ret = ft_strjoin_free(ret, ft_strdup("0"));
+			}
+		}
+		else if (ft_strncmp(ret, "0x", 2) == 0)
+		{
+			//printf("_______2______\n");
+			char *tmp = ret;
+			ret = ft_strdup(ret + 2);
+			ft_strdel(&tmp);
+			while (((int)ft_strlen(ret) - 2) < ft_atoi(conv.precision))
+				ret = ft_strjoin_free(ft_strdup("0"), ret);
+			ret[0] = '0';
+			ret[1] = 'x';
+		}
+
+		}
+
 		if (ft_strchr("di", conv.conversion) && ft_strcmp(conv.flag, " 0") == 0 && ft_strcmp(ret, "0") == 0)
 		{
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
