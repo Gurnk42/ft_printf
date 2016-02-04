@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 00:39:41 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 10:48:42 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ char	*ft_get_padding(char *str, t_env *e)
 				}
 				n++;
 			}
-			//GET OFFSET THERE TO START AFTER PADDING ETC. (ft_strlen(padding))
 			break;
 		}
 		i++;
@@ -166,11 +165,28 @@ char	*ft_get_padding(char *str, t_env *e)
 		}
 	}
 	else
-	{
-		ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
+	{	
+		if (ft_strchr("di", conv.conversion) && ft_strchr(conv.flag, '+') != NULL)
+		{
+			if (ft_strchr(ret, '-') == NULL)
+			{
+				if (ft_strcmp(ret, "0") != 0) //&& ft_atoi(conv.padding) < (ft_strlen(ret)))
+				{
+					ret = ft_strjoin_free(ft_strdup("+"), ret);
+					ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
+				}
+				else
+				{
+					ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
+					*ret = '+';
+				}
+
+			}
+		}
+		else
+			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 		e->offset = conv.conversion_pos + 2;
 	}
-	//256
 	//if (ft_strcmp(conv.flag, " ") == 0 && conv.precision_pos == -1
 	//	&& ft_strcmp(conv.conversion_pos) != -1 && conv.padding_pos == -1)
 	//	ret = ft_strjoin_free(ft_strdup(" "), ret);

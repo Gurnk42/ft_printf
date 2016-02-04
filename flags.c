@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:12:25 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 19:06:10 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 10:15:59 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,11 @@ static void		ft_flag_switch(int *i, int *n, char **str, t_conv *conv)
 			&& conv->precision_pos != -1)
 				|| conv->precision_pos == -1)
 		{
-			//USELESS, PADDING IS NOT YET CALCULATED
-			/*if (((*i + *n) < conv->padding_pos
-				&& conv->padding_pos != -1)
-					|| conv->padding_pos == -1)
-			{*/
-				if (ft_strchr(conv->flag, (*str)[*i + *n]) == NULL)
-					conv->flag = ft_strjoin_free(conv->flag,
-							ft_char_to_str((*str)[*i + *n]));
-				if (conv->flag_pos == -1)
-					conv->flag_pos = *i + *n;
-			//}
+			if (ft_strchr(conv->flag, (*str)[*i + *n]) == NULL)
+				conv->flag = ft_strjoin_free(conv->flag,
+						ft_char_to_str((*str)[*i + *n]));
+			if (conv->flag_pos == -1)
+				conv->flag_pos = *i + *n;
 		}
 		(*n)++;
 	}
