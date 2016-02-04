@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 20:30:33 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:45:50 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 			&& ret != NULL)
 	{
 		i = 0;
-		if (ft_atoi(ret) > 0)
+		if (ft_atoi(ret) >= 0)
 			i = 1;
 		if (ft_atoi(conv->precision) == 0 && ft_strcmp(ret, "0") == 0)
 		{

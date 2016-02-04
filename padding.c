@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 20:14:08 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:52:47 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 				*offset = 1;
 				(*len)++;
 			}
+			else if (conv->padding_pos != -1 && conv->precision_pos != -1
+				&& ft_strlen(conv->precision) > 0
+				&& ft_atoi(conv->padding) > ft_atoi(conv->precision))
+				*padding = ft_strjoin_free(*padding, ft_strdup(" "));
 			else
 				*padding = ft_strjoin_free(*padding, ft_strdup("0"));
 		}
