@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 12:39:56 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 15:44:50 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,30 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 	ret = ft_get_conversion(str, conv, e);
 	//if (conv->conversion == '%')
 	//	return (ret);
-/*	if (ft_strchr("dioOuxX", conv->conversion) && conv->conversion_pos != -1)
-	{
-		while ()
-		{
-			
-		}
-	}*/
 	if (conv->precision_pos != -1 && ft_strchr("sS", conv->conversion) && ret != NULL)
 	{
 		if (ft_atoi(conv->precision) < (int)ft_strlen(ret))
 		{
-			ret = ft_strncat(ft_strnew(ft_atoi(conv->precision)), tmp = ret, ft_atoi(conv->precision));
+			i = 0;
+			n = 0;
+			while (ret[i] && n < ft_atoi(conv->precision))
+			{
+				if (ret[i] >= 0x0000 && ret[i] <= 0x007F)
+					i++;
+				else
+				{
+					e->len_add -= 2;
+					i += 3;
+				}
+				n++;
+			}
+			ret = ft_strncat(ft_strnew(ft_atoi(conv->precision)), tmp = ret, i);
 			ft_strdel(&tmp);
 		}
 	}
 	if (conv->precision_pos != -1 && ft_strchr("dioOuxX", conv->conversion) && ret != NULL)
 	{
-		i = 0; // USED FOR POS BOOL
+		i = 0;
 		if (ft_atoi(ret) > 0)
 			i = 1;
 		if (ft_atoi(conv->precision) == 0 && ft_strcmp(ret, "0") == 0)

@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:08:31 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 13:56:13 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 14:57:07 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*ft_get_conversion(char *str, t_conv *conv, t_env *e)
 	i = 0;
 	tmp = NULL;	
 	ret = NULL;
+
 	if (ft_strchr("hljz sSpdDioOuUxXcC% .1234567890 #0-+", str[i]) == NULL)
 		return (ft_strnew(0));
 	while (str[i])

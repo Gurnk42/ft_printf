@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/03 23:51:03 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 15:28:30 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	ft_init_env(char *s, va_list *ap, t_env *e)
 	e->tmp = NULL;
 	e->ret = NULL;
 	e->offset = 2;
+	e->len_add = 0;
 }
 
 int		ft_printf(char *s, ...)
@@ -74,5 +75,5 @@ int		ft_printf(char *s, ...)
 	va_end(*(env.ap));
 	ft_strdel(&env.res);
 	ft_strdel(&env.str);
-	return (len);
+	return (len + env.len_add);
 }

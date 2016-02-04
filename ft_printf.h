@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 11:57:15 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 15:28:46 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct	s_env
 		char	*res;
 		char	*ret;
 		char	*tmp;
+		int		len_add;
 }				t_env;
 
 /*

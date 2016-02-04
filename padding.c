@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 13:49:45 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 16:20:33 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, int *offset, int *len)
 {
-	if ((ft_strchr("dixXcsSp", conv->conversion) != NULL) || (conv->conversion_pos == -1))
+	if ((ft_strchr("dixXcsSp%", conv->conversion) != NULL) || (conv->conversion_pos == -1))
 	{
 		if (ft_strchr(conv->flag, '0') != NULL)
 		{
@@ -160,8 +160,8 @@ char	*ft_get_padding(char *str, t_env *e)
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)) - 1);
 			e->offset = ft_strlen(conv.padding) + 1;
 		}
-		//for printf("{%-15Z}", 123)
-		else if (ft_strchr(conv.flag, '-') != NULL && conv.precision_pos == -1
+		//for printf("{%-15Z}", 123) && {%05.Z}
+		else if ((ft_strchr(conv.flag, '-') != NULL || ft_strchr(conv.flag, '0') != NULL) //&& conv.precision_pos == -1
 				&& conv.conversion_pos == -1)
 		{
 			ret = ft_char_to_str(str[ft_strlen(conv.padding) + ft_strlen(conv.flag)]);
@@ -190,7 +190,6 @@ char	*ft_get_padding(char *str, t_env *e)
 					ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 					*ret = '+';
 				}
-
 			}
 		}
 		else
