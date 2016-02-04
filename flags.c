@@ -6,13 +6,11 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:12:25 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 10:15:59 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 18:43:41 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-#include <stdio.h>
 
 static void		ft_flag_switch(int *i, int *n, char **str, t_conv *conv)
 {

@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 17:09:25 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 18:47:24 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 			conv->precision_pos = i;
 			while (ft_isdigit(str[i + n]) == 1)
 			{
-				conv->precision = ft_strjoin_free(conv->precision, ft_char_to_str(str[i + n]));
+				conv->precision = ft_strjoin_free(conv->precision,
+					ft_char_to_str(str[i + n]));
 				n++;
 			}
 			break ;
@@ -40,8 +41,6 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 		i++;
 	}
 	ret = ft_get_conversion(str, conv, e);
-	//if (conv->conversion == '%')
-	//	return (ret);
 	if (conv->precision_pos != -1 && ft_strchr("sS", conv->conversion) && ret != NULL)
 	{
 		if (ft_atoi(conv->precision) < (int)ft_strlen(ret))
@@ -63,7 +62,8 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 			ft_strdel(&tmp);
 		}
 	}
-	if (conv->precision_pos != -1 && ft_strchr("dioOuxX", conv->conversion) && ret != NULL)
+	if (conv->precision_pos != -1 && ft_strchr("dioOuxX", conv->conversion)
+		&& ret != NULL)
 	{
 		i = 0;
 		if (ft_atoi(ret) > 0)
