@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 16:50:04 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 17:23:29 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,15 @@ char	*ft_get_padding(char *str, t_env *e)
 			e->offset = ft_strlen(conv.padding) + 1;
 		}
 		//for printf("{%-15Z}", 123) && {%05.Z}
-		else if ((ft_strchr(conv.flag, '-') != NULL || ft_strchr(conv.flag, '0') != NULL) //&& conv.precision_pos == -1
+		else if ((ft_strchr(conv.flag, '-') != NULL || ft_strchr(conv.flag, '0') != NULL)
 				&& conv.conversion_pos == -1)
 		{
-			ret = ft_char_to_str(str[ft_strlen(conv.padding) + ft_strlen(conv.flag)]);
+			ret = ft_char_to_str(str[ft_strlen(conv.padding)
+				+ ft_strlen(conv.flag) + ((conv.precision_pos != -1
+				&& ft_strcmp(conv.precision, "") == 0) ? (1) : (0))]);
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
-			e->offset = ft_strlen(conv.padding) + ft_strlen(conv.flag) + 2;
+			e->offset = ft_strlen(conv.padding) + ft_strlen(conv.flag)
+				+ ((conv.precision_pos != -1 && ft_strcmp(conv.precision, "") == 0) ? (1) : (0)) + 2;
 		}
 	}
 	else
