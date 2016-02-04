@@ -21,6 +21,9 @@ int main()
 //ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
 	//printf("\n-----------------------------------------------\n");
 	//printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
-	ft_printf("'%.4s'", "123456789");
+	printf("'%.0d'", 0);
+	printf("\n_______\n");
+	ft_printf("'%.0d'", 0);
+	printf("\n_______\n");
 	return (len);
 }
