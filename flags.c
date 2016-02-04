@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:12:25 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 18:43:41 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:14:17 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void		ft_flag_switch(int *i, int *n, char **str, t_conv *conv)
 	while (ft_strchr("#0- +", (*str)[*i + *n]))
 	{
 		if (((*i + *n) < conv->precision_pos
-			&& conv->precision_pos != -1)
+					&& conv->precision_pos != -1)
 				|| conv->precision_pos == -1)
 		{
 			if (ft_strchr(conv->flag, (*str)[*i + *n]) == NULL)

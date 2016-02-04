@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 20:13:17 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:14:08 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,18 +227,7 @@ char	*ft_get_padding(char *str, t_env *e)
 		}
 		else if (ft_strchr("di", conv.conversion) && ft_strchr(conv.flag, ' ') != NULL
 				&& conv.conversion_pos == 1 && conv.flag_pos == 0 && ft_atoi(ret) > 0)
-		{
-/*MODIFIER : ''
-PRECISION : ''
-PRECISION_POS : '-1'
-CONVERSION : 'd'
-CONVERSION_POS : '1'
-FLAGS : ' '
-FLAG_POS : '0'
-PADDING : ''
-PADDING_POS : '-1'*/
 			ret = ft_strjoin_free(ft_strdup(" "), ret);
-		}
 		else
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 		e->offset = conv.conversion_pos + 2;

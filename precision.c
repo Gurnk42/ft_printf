@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 20:04:04 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 20:30:33 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 			while (ft_isdigit(str[i + n]) == 1)
 			{
 				conv->precision = ft_strjoin_free(conv->precision,
-					ft_char_to_str(str[i + n]));
+						ft_char_to_str(str[i + n]));
 				n++;
 			}
 			break ;
@@ -47,23 +47,27 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 		{
 			i = 0;
 			n = 0;
-			while (ret[i] && n < ft_atoi(conv->precision))
+			while (ret[i] && i < ft_atoi(conv->precision))
 			{
 				if (ret[i] >= 0x0000 && ret[i] <= 0x007F)
+				{
+					n = 0;
 					i++;
+				}
 				else
 				{
-					e->len_add -= 2;
 					i += 3;
+					n = 1;
 				}
-				n++;
 			}
+			if (i > ft_atoi(conv->precision) && n == 1)
+				i -= 3;
 			ret = ft_strncat(ft_strnew(ft_atoi(conv->precision)), tmp = ret, i);
 			ft_strdel(&tmp);
 		}
 	}
 	if (conv->precision_pos != -1 && ft_strchr("dioOuxX", conv->conversion)
-		&& ret != NULL)
+			&& ret != NULL)
 	{
 		i = 0;
 		if (ft_atoi(ret) > 0)
