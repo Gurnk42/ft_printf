@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 16:20:33 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 16:50:04 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,7 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 {
 	if ((ft_strchr("dixXcsSp%", conv->conversion) != NULL) || (conv->conversion_pos == -1))
 	{
-		if (ft_strchr(conv->flag, '0') != NULL)
-		{
-			if (**ret == '-' && *i == 0)
-			{
-				*padding = ft_strjoin_free(*padding, ft_strdup("-"));
-				*offset = 1;
-				(*len)++;
-			}
-			else
-				*padding = ft_strjoin_free(*padding, ft_strdup("0"));
-		}
-		else if (ft_strchr(conv->flag, '-') != NULL)// && ft_strchr("dixXcsSp", conv->conversion) != NULL)
+		if (ft_strchr(conv->flag, '-') != NULL)// && ft_strchr("dixXcsSp", conv->conversion) != NULL)
 		{
 			if (**ret == '-' && *i == 0)
 			{
@@ -40,11 +29,24 @@ static void	ft_padding_switch(char **ret, t_conv *conv, int *i, char **padding, 
 			else
 				*padding = ft_strjoin_free(*padding, ft_strdup(" "));
 		}
+		else if (ft_strchr(conv->flag, '0') != NULL)
+		{
+			if (**ret == '-' && *i == 0)
+			{
+				*padding = ft_strjoin_free(*padding, ft_strdup("-"));
+				*offset = 1;
+				(*len)++;
+			}
+			else
+				*padding = ft_strjoin_free(*padding, ft_strdup("0"));
+		}
 		else
 			*padding = ft_strjoin_free(*padding, ft_strdup(" "));
 	}
 	else
+	{
 		*padding = ft_strjoin_free(*padding, ft_strdup(" "));
+	}
 }
 
 static void	ft_do_padding(char **ret, t_conv *conv, int len)
@@ -59,7 +61,6 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	offset = 0;
 	tmp2 = NULL;
 	tmp = NULL;
-	//	len = (int)(ft_atoi(conv->padding) - ft_strlen(*ret));
 	//TEST FOR DAT F***ING '\0'
 	while ((*ret)[i])
 	{
@@ -119,8 +120,8 @@ char	*ft_get_padding(char *str, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		if ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
-					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
+		if (((str[i + n] > '0' && str[i + n] <= '9') && ((i + n) < conv.conversion_pos))
+					|| ((str[i + n] > '0' && str[i + n] <= '9') && conv.conversion_pos == -1))
 		{
 			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
 					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
@@ -196,9 +197,6 @@ char	*ft_get_padding(char *str, t_env *e)
 			ft_do_padding(&ret, &conv, (int)(ft_atoi(conv.padding) - ft_strlen(ret)));
 		e->offset = conv.conversion_pos + 2;
 	}
-	//if (ft_strcmp(conv.flag, " ") == 0 && conv.precision_pos == -1
-	//	&& ft_strcmp(conv.conversion_pos) != -1 && conv.padding_pos == -1)
-	//	ret = ft_strjoin_free(ft_strdup(" "), ret);
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);
 	ft_strdel(&conv.precision);

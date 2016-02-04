@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 15:44:50 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 16:55:34 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 			if (i < 0)
 				ret = ft_strjoin_free(ft_strdup("-"), ret);
 		}
+	}
+	if (conv->precision_pos != -1 && ft_strchr("p", conv->conversion)
+			&& ret != NULL && ft_strcmp(conv->flag, "") == 0)
+	{
+		while (((int)ft_strlen(ret) - 2) < ft_atoi(conv->precision))
+			ret = ft_strjoin_free(ret, ft_strdup("0"));
 	}
 	return (ret);
 }

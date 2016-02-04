@@ -60,10 +60,8 @@ int main()
 	printf("\n_______\n");
 	ft_printf("%#.3o", 1);
 	printf("\n_______\n");*/
-	printf("{%05.Z}", 0);
-	//len = printf("%.4S", L"我是一只猫。");
+	printf("%.5p", 0);
 	printf("\n_______\n");
-	//len = ft_printf("%.4S", L"我是一只猫。");
-	ft_printf("{%05.Z}", 0);
+	ft_printf("%.5p", 0);
 	return (len);
 }
