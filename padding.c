@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 12:17:12 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 13:46:54 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,12 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	else if (ft_strchr(conv->flag, '#') != NULL
 		&& ft_strchr("x", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
-		*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0x"), padding), *ret);
+	{
+		if (conv->precision_pos != -1 && ft_strcmp(*ret, "") == 0)
+			*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup(""), padding), *ret);
+		else
+			*ret = ft_strjoin_free(padding = ft_strjoin_free(ft_strdup("0x"), padding), *ret);
+	}
 	else if (ft_strchr(conv->flag, '#') != NULL
 		&& ft_strchr("X", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
