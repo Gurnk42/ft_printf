@@ -62,8 +62,8 @@ int main()
 	printf("\n_______\n");
 	ft_printf("{%05.S}", L"42 c est cool");*/
 	printf("\n_______\n");
-	len = printf("%.4d", 42);
+	printf("%15.4d", -42);
 	ft_printf("\n_______\n");
-	ft_printf("%.4d", 42);
+	ft_printf("%15.4d", -42);
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 12:23:00 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/04 12:39:56 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,32 @@ char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 	}
 	if (conv->precision_pos != -1 && ft_strchr("dioOuxX", conv->conversion) && ret != NULL)
 	{
+		i = 0; // USED FOR POS BOOL
+		if (ft_atoi(ret) > 0)
+			i = 1;
 		if (ft_atoi(conv->precision) == 0 && ft_strcmp(ret, "0") == 0)
 		{
 			ft_strdel(&ret);
 			ret = ft_strnew(0);
 		}
 		else
+		{
 			while ((int)ft_strlen(ret) < ft_atoi(conv->precision))
-				ret = ft_strjoin_free(ft_strdup("0"), ret);
+			{
+				if (i > 0)
+					ret = ft_strjoin_free(ft_strdup("0"), ret);
+				else
+				{
+					i--;
+					if (i == -1 && *ret == '-')
+						*ret = '0';
+					else
+						ret = ft_strjoin_free(ft_strdup("0"), ret);
+				}
+			}
+			if (i < 0)
+				ret = ft_strjoin_free(ft_strdup("-"), ret);
+		}
 	}
 	return (ret);
 }
