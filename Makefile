@@ -8,6 +8,8 @@ SRCS = ft_printf.c \
 	flags.c \
 	precision.c \
 	conversion.c \
+	conversion_2.c \
+	conversion_3.c \
 	./libft/ft_memset.c \
 	./libft/ft_bzero.c \
 	./libft/ft_memcpy.c \

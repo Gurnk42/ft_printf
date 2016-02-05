@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 00:44:30 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 10:50:49 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 #include "libft.h"
 #include <stdarg.h>
+
+# define CHAR_0 "\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b"
+# define HEXA_MIN "0123456789abcdef"
+# define HEXA_MAJ "0123456789ABCDEF"
+# define OCT "01234567"
+# define BASE_10 "0123456789"
 
 typedef struct	s_env
 {
@@ -57,6 +63,16 @@ int		ft_putstr_0(char *str);
 ** conversion.c
 */
 char	*ft_get_conversion(char *str, t_conv *conv, t_env *e);
+char	*ft_conv_c(t_conv *conv, t_env *e);
+char	*ft_conv_uc_c(t_env *e);
+char	*ft_conv_uc_s(t_env *e);
+char	*ft_conv_s(t_conv *conv, t_env *e);
+char	*ft_conv_di(t_conv *conv, t_env *e);
+char	*ft_conv_u(t_conv *conv, t_env *e);
+char	*ft_conv_x(t_conv *conv, t_env *e);
+char	*ft_conv_uc_x(t_conv *conv, t_env *e);
+char	*ft_conv_p(t_conv *conv, t_env *e);
+char	*ft_conv_o(t_conv *conv, t_env *e);
 
 /*
 ** precision.c
