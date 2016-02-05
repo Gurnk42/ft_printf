@@ -18,19 +18,25 @@ int main()
 	//len = ft_printf("%#x", 42);
 	//len = ft_printf("% Zoooo");
 	//ft_printf("{%10R}", 123);
-ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
+//ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
 	//printf("\n-----------------------------------------------\n");
 	//printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
-	ft_printf("%#.o, %#.0o", 0, 0);
-	ft_printf("%#.x, %#.0x", 0, 0);
-	ft_printf("%.p, %.0p", 0, 0);
-	ft_printf("{%05.c}", 0);
-	ft_printf("{%05.s}", 0);
-	ft_printf("{%05.%}", 0);
-	ft_printf("{%05.Z}", 0);
-	ft_printf("{%#.5x}", 1);
-	ft_printf("%#.3o", 1);
-	ft_printf("{%03.2d}", 0);
-	ft_printf("% d", 9999);
+	
+	
+	
+	
+	
+	//printf("\n________________\n");
+	//printf("%#08x", 42);
+	printf("\n________________\n");
+	//printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
+	printf("%05o", 42);
+	printf("\n________________\n");
+	printf("\n___          _____\n");
+	printf("\n___          ___\n");
+	printf("\n________________\n");
+	ft_printf("%05o", 42);
+	//ft_printf("%s %s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
+
 	return (len);
 }

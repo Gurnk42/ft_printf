@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 14:22:44 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 20:53:57 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_padding_switch_core(t_padding *p, t_conv *conv, int *offset)
 
 static void	ft_padding_switch(t_padding *p, t_conv *conv, int *offset)
 {
-	if ((ft_strchr("dixXcsSp%", conv->conversion) != NULL)
+	if ((ft_strchr("oduixXcsSp%", conv->conversion) != NULL)
 			|| (conv->conversion_pos == -1))
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
@@ -86,11 +86,11 @@ static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
 static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 		int offset, char *padding)
 {
-	char	*tmp2;
 	char	*tmp;
+	int		i;
 
-	tmp2 = NULL;
 	tmp = NULL;
+	i = 0;
 	if (ft_strchr(conv->flag, '#') != NULL
 			&& ft_strchr("x", conv->conversion) != NULL
 			&& ft_strcmp(*ret, "0") != 0)
@@ -99,13 +99,28 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 				&& ft_strcmp(*ret, "0") != 0)
 			*ret = ft_strjoin_free(padding, *ret);
 		else
-			*ret = ft_strjoin_free(
-					padding = ft_strjoin_free(ft_strdup("0x"), padding), *ret);
+		{
+			while (padding[i] == ' ')
+				i++;
+			if (i - 1 > 0 && i - 2 >= 0)
+			{
+				padding[i - 2] = '0';
+				padding[i - 1] = 'x';
+				*ret = ft_strjoin_free(
+						padding, *ret);
+			}
+			else
+			{
+				padding[0] = '0';
+				padding[1] = 'x';
+				*ret = ft_strjoin_free(
+					padding, *ret);
+			}
+		}
 	}
 	else
 		ft_do_padding_switch_4(conv, ret, offset, padding);
 	ft_strdel(&tmp);
-	ft_strdel(&tmp2);
 }
 
 static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
@@ -176,7 +191,7 @@ static void	ft_do_padding(char **ret, t_conv *conv, int len)
 	ft_do_padding_switch(conv, ret, len, offset);
 }
 
-static char	*ft_padding_ret(char *str, t_conv *conv, t_env *e)
+static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 {
 	char	*ret;
 
@@ -205,7 +220,7 @@ static char	*ft_padding_ret(char *str, t_conv *conv, t_env *e)
 	return (ret);
 }
 
-static void	ft_padding_ret_null_di_core(t_conv *conv, char **ret, t_env *e)
+static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 {
 	if (ft_strchr(*ret, '-') == NULL)
 	{
@@ -224,7 +239,7 @@ static void	ft_padding_ret_null_di_core(t_conv *conv, char **ret, t_env *e)
 	}
 }
 
-static void	ft_padding_ret_null_di(t_conv *conv, char **ret, t_env *e)
+static void	ft_padding_ret_di(t_conv *conv, char **ret, t_env *e)
 {
 	if (ft_strchr("di", conv->conversion) && ft_strcmp(conv->flag, " 0") == 0
 			&& ft_strcmp(*ret, "0") == 0)
@@ -235,7 +250,7 @@ static void	ft_padding_ret_null_di(t_conv *conv, char **ret, t_env *e)
 	}
 	else if (ft_strchr("di", conv->conversion)
 			&& ft_strchr(conv->flag, '+') != NULL)
-		ft_padding_ret_null_di_core(conv, ret, e);
+		ft_padding_ret_di_core(conv, ret);
 	else if (ft_strchr("di", conv->conversion)
 			&& ft_strchr(conv->flag, ' ') != NULL
 			&& conv->conversion_pos == 1
@@ -247,7 +262,7 @@ static void	ft_padding_ret_null_di(t_conv *conv, char **ret, t_env *e)
 	e->offset = conv->conversion_pos + 2;
 }
 
-static void	ft_padding_ret_null(t_conv *conv, char **ret, t_env *e)
+static void	ft_padding_ret(t_conv *conv, char **ret, t_env *e)
 {
 	char	*tmp;
 
@@ -271,7 +286,7 @@ static void	ft_padding_ret_null(t_conv *conv, char **ret, t_env *e)
 			(*ret)[1] = 'x';
 		}
 	}
-	ft_padding_ret_null_di(conv, ret, e);
+	ft_padding_ret_di(conv, ret, e);
 }
 
 static void	ft_store_padding_core(char *str, t_conv *conv, int *i, int *n)
@@ -336,9 +351,9 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("\n");
 #endif
 	if (ret == NULL)
-		ret = ft_padding_ret(str, &conv, e);
+		ret = ft_padding_ret_null(str, &conv, e);
 	else
-		ft_padding_ret_null(&conv, &ret, e);
+		ft_padding_ret(&conv, &ret, e);
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);
 	ft_strdel(&conv.precision);
