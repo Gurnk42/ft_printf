@@ -24,7 +24,7 @@ char	*ft_conv_c(t_conv *conv, t_env *e)
 		buf = ft_strnew(4);
 		ft_utf8_encode(buf, (wchar_t)va_arg(*(e->ap), wchar_t));
 		if (*buf == '\0')
-			ret = ft_strdup(CHAR_0);
+			ret = ft_strdup(C_0);
 		else
 			ret = ft_strdup(buf);
 		ft_strdel(&buf);
@@ -44,7 +44,7 @@ char	*ft_conv_uc_c(t_env *e)
 	buf = ft_strnew(4);
 	ft_utf8_encode(buf, (wchar_t)va_arg(*(e->ap), wchar_t));
 	if (*buf == '\0')
-		ret = ft_strdup(CHAR_0);
+		ret = ft_strdup(C_0);
 	else
 		ret = ft_strdup(buf);
 	ft_strdel(&buf);
@@ -69,10 +69,10 @@ char	*ft_conv_uc_s(t_env *e)
 		{
 			if (ft_utf8_encode(buf, wstr[i]))
 				ret = ft_strjoin_free(ret, (wstr[i] == '\0') ?
-						ft_strdup(CHAR_0) : ft_char_to_str(wstr[i]));
+						ft_strdup(C_0) : ft_char_to_str(wstr[i]));
 			else
 				ret = ft_strjoin_free(ret, (((*buf) == '\0') ?
-							ft_strdup(CHAR_0) : ft_strdup(buf)));
+							ft_strdup(C_0) : ft_strdup(buf)));
 			i++;
 		}
 	}
