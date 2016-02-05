@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 20:52:47 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 01:02:14 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,18 +131,22 @@ char	*ft_get_padding(char *str, t_env *e)
 	while (str[i] && str[i] != '%')
 	{
 		n = 0;
-		if (((str[i + n] > '0' && str[i + n] <= '9') && ((i + n) < conv.conversion_pos))
-				|| ((str[i + n] > '0' && str[i + n] <= '9') && conv.conversion_pos == -1))
+		if (((str[i + n] > '0' && str[i + n] <= '9')
+			&& ((i + n) < conv.conversion_pos))
+			|| ((str[i + n] > '0' && str[i + n] <= '9')
+			&& conv.conversion_pos == -1))
 		{
 			while ((ft_isdigit(str[i + n]) && ((i + n) < conv.conversion_pos))
 					|| (ft_isdigit(str[i + n]) && conv.conversion_pos == -1))
 			{
-				if (((conv.precision_pos != -1) && ((i + n) < conv.precision_pos))
+				if (((conv.precision_pos != -1)
+					&& ((i + n) < conv.precision_pos))
 						|| (conv.precision_pos == -1))
 				{
 					if (conv.padding_pos == -1)
 						conv.padding_pos = i + n;
-					conv.padding = ft_strjoin_free(conv.padding, ft_char_to_str(str[i + n]));
+					conv.padding = ft_strjoin_free(conv.padding,
+						ft_char_to_str(str[i + n]));
 				}
 				n++;
 			}
@@ -176,6 +180,7 @@ char	*ft_get_padding(char *str, t_env *e)
 		else if ((ft_strchr(conv.flag, '-') != NULL || ft_strchr(conv.flag, '0') != NULL)
 				&& conv.conversion_pos == -1)
 		{
+			ft_strdel(&ret);
 			ret = ft_char_to_str(str[ft_strlen(conv.padding)
 					+ ft_strlen(conv.flag) + ((conv.precision_pos != -1
 							&& ft_strcmp(conv.precision, "") == 0) ? (1) : (0))]);
@@ -239,5 +244,6 @@ char	*ft_get_padding(char *str, t_env *e)
 	ft_strdel(&conv.flag);
 	ft_strdel(&conv.padding);
 	ft_strdel(&conv.precision);
+	ft_strdel(&conv.modifier);
 	return (ret);
 }

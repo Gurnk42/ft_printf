@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 15:28:46 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 00:44:30 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_conv
 	int			padding_pos;
 }				t_conv;
 
-int		ft_printf(char *str, ...);
+int		ft_printf(char const *format, ...);
 void	ft_init_conv(t_conv *conv);
 
 /*

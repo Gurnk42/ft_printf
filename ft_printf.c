@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/04 15:28:30 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 00:55:14 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_init_conv(t_conv *conv)
 	conv->padding_pos = -1;
 }
 
-static void	ft_init_env(char *s, va_list *ap, t_env *e)
+static void	ft_init_env(char const *s, va_list *ap, t_env *e)
 {
 	e->str = ft_strdup(s);
 	e->ap = ap;
@@ -38,7 +38,7 @@ static void	ft_init_env(char *s, va_list *ap, t_env *e)
 	e->len_add = 0;
 }
 
-int		ft_printf(char *s, ...)
+int		ft_printf(char const *s, ...)
 {
 	t_env	env;
 	va_list	ap;
