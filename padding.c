@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 23:24:19 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 00:24:26 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,12 +268,12 @@ static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 
 static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 {
+	//printf("RET : '%s'\n", *ret);
 	if (ft_strchr(*ret, '-') == NULL)
 	{
 		if (ft_strcmp(*ret, "0") != 0)
 		{
 			*ret = ft_strjoin_free(ft_strdup("+"), *ret);
-			//printf("RET : '%s'\n", *ret);
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 						- ft_strlen(*ret)));
 		}
@@ -284,6 +284,9 @@ static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 			**ret = '+';
 		}
 	}
+	else
+			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
+						- ft_strlen(*ret)));
 }
 
 static void	ft_padding_ret_di(t_conv *conv, char **ret, t_env *e)
