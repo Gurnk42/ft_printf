@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 22:52:50 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 23:24:19 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,19 @@ static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
 					(tmp2 = *ret) + offset,
 					tmp = padding);
 		else
-			*ret = ft_strjoin(
-					tmp = padding,
-					(tmp2 = *ret) + offset);
+		{
+			//printf("RET : '%s'\n", *ret);
+			if (**ret == '+')
+			{
+				*ret = ft_strjoin_free(ft_strdup("+"), ft_strjoin(
+							tmp = padding,
+							(tmp2 = *ret) + offset + 1));
+			}
+			else
+				*ret = ft_strjoin(
+						tmp = padding,
+						(tmp2 = *ret) + offset);
+		}
 	}
 	ft_strdel(&tmp);
 	ft_strdel(&tmp2);
@@ -106,18 +116,18 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 			{
 				if (ft_strchr(conv->flag, '-') == NULL)
 				{
-				padding[i - 2] = '0';
-				padding[i - 1] = 'x';
-				*ret = ft_strjoin_free(
-						padding, *ret);
+					padding[i - 2] = '0';
+					padding[i - 1] = 'x';
+					*ret = ft_strjoin_free(
+							padding, *ret);
 				}
 				else
 				{
 					if ((int)(ft_strlen(padding) - 2) >= 0)
 						padding[ft_strlen(padding) - 2] = '\0';
-				//	if (ft_strlen(conv->padding) >)
+					//	if (ft_strlen(conv->padding) >)
 					*ret = ft_strjoin_free(ft_strdup("0x"), ft_strjoin_free(
-						*ret, padding));
+								*ret, padding));
 					ft_strdel(&tmp);
 				}
 			}
@@ -126,7 +136,7 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 				padding[0] = '0';
 				padding[1] = 'x';
 				*ret = ft_strjoin_free(
-					padding, *ret);
+						padding, *ret);
 			}
 		}
 	}
@@ -158,16 +168,28 @@ static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
 			*ret = ft_strjoin_free(padding, *ret);
 		else
 		{
-			while (padding[i] == ' ')
-				i++;
-			if (i - 1 >= 0)
+			if (ft_strchr(conv->flag, '-') == NULL)
 			{
-				padding[i - 1] = '0';
-				*ret = ft_strjoin_free(padding, *ret);
+				while (padding[i] == ' ')
+					i++;
+				if (i - 1 >= 0)
+				{
+					padding[i - 1] = '0';
+					*ret = ft_strjoin_free(padding, *ret);
+				}
+				else
+					*ret = ft_strjoin_free(
+					padding = ft_strjoin_free(ft_strdup("0"), padding), *ret);
 			}
 			else
-				*ret = ft_strjoin_free(
-					padding = ft_strjoin_free(ft_strdup("0"), padding), *ret);
+			{
+				if ((int)ft_strlen(padding) > 1)
+				{
+				*ret = ft_strjoin(ft_strdup("0"), *ret);
+				padding[ft_strlen(padding) - 1] = '\0';
+				*ret = ft_strjoin_free(*ret, padding);
+				}
+			}
 		}
 	}
 	else
@@ -239,7 +261,7 @@ static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 					- ft_strlen(ret)));
 		e->offset = ft_strlen(conv->padding) + ft_strlen(conv->flag)
 			+ ((conv->precision_pos != -1
-			&& ft_strcmp(conv->precision, "") == 0) ? (1) : (0)) + 2;
+						&& ft_strcmp(conv->precision, "") == 0) ? (1) : (0)) + 2;
 	}
 	return (ret);
 }
@@ -251,6 +273,7 @@ static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 		if (ft_strcmp(*ret, "0") != 0)
 		{
 			*ret = ft_strjoin_free(ft_strdup("+"), *ret);
+			//printf("RET : '%s'\n", *ret);
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 						- ft_strlen(*ret)));
 		}

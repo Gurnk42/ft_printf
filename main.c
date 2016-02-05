@@ -30,12 +30,12 @@ int main()
 	//printf("%#08x", 42);
 	printf("\n________________\n");
 	//printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
-	printf("'%#-08x'", 42);
+	printf("'%-#6o'", 2500);
 	printf("\n________________\n");
 	printf("\n___          _____\n");
 	printf("\n___          ___\n");
 	printf("\n________________\n");
-	ft_printf("'%#-08x'", 42);
+	ft_printf("'%-#6o'", 2500);
 	//ft_printf("%s %s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 
 	return (len);
