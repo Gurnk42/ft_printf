@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 10:57:56 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 11:49:45 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef struct	s_env
 	char		*tmp;
 	int			len_add;
 }				t_env;
+
+typedef struct	s_padding
+{
+	char		**ret;
+	char		**padding;
+	int			*i;
+	int			*len;
+}				t_padding;
 
 typedef struct	s_conv
 {
