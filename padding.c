@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 20:53:57 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/05 21:16:45 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,11 @@ static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
 {
 	char	*tmp2;
 	char	*tmp;
+	int		i;
 
 	tmp2 = NULL;
 	tmp = NULL;
+	i = 0;	
 	if (ft_strchr(conv->flag, '0') != NULL && conv->conversion == 'p')
 		*ret = ft_strjoin(
 				(tmp2 = *ret),
@@ -143,8 +145,18 @@ static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
 				&& ft_strcmp(conv->precision, "0") != 0)
 			*ret = ft_strjoin_free(padding, *ret);
 		else
-			*ret = ft_strjoin_free(
+		{
+			while (padding[i] == ' ')
+				i++;
+			if (i - 1 >= 0)
+			{
+				padding[i - 1] = '0';
+				*ret = ft_strjoin_free(padding, *ret);
+			}
+			else
+				*ret = ft_strjoin_free(
 					padding = ft_strjoin_free(ft_strdup("0"), padding), *ret);
+		}
 	}
 	else
 		ft_do_padding_switch_3(conv, ret, offset, padding);
