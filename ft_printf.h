@@ -6,7 +6,7 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:10:49 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 17:54:33 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 18:55:26 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char			*ft_get_flags(char *str, t_conv *conv, t_env *e);
 */
 char			*ft_get_padding(char *str, t_env *e);
 void			ft_do_padding(char **ret, t_conv *conv, int len);
-void			ft_do_padding_switch(t_conv *conv, char **ret, int len, int offset);
+void			ft_do_padding_switch(t_conv *conv, char **ret,
+					int len, int offset);
 void			ft_do_padding_switch_2(t_conv *conv, char **ret,
 					int offset, char *padding);
 void			ft_do_padding_switch_2_1(t_conv *conv, char **ret,
@@ -109,7 +110,8 @@ void			ft_store_padding_core(char *str, t_conv *conv, int *i, int *n);
 char			*ft_padding_ret_null(char *str, t_conv *conv, t_env *e);
 void			ft_do_padding_switch_3(t_conv *conv, char **ret,
 					int offset, char *padding);
-void			ft_do_padding_switch_3_1(t_conv *conv, char **ret, char **padding);
+void			ft_do_padding_switch_3_1(t_conv *conv, char **ret,
+					char **padding);
 void			ft_do_padding_switch_3_2(t_conv *conv, char **ret,
 					char **padding, int i);
 void			ft_do_padding_switch_4(t_conv *conv, char **ret,
