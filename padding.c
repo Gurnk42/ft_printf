@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 14:30:45 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 14:49:37 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,16 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 			}
 			else
 			{
-				padding[0] = '0';
-				padding[1] = 'x';
-				*ret = ft_strjoin_free(
+				if (conv->padding_pos != -1)
+				{
+					padding[0] = '0';
+					padding[1] = 'x';
+					*ret = ft_strjoin_free(
 						padding, *ret);
+				}
+				else
+					*ret = ft_strjoin_free(ft_strdup("0x"), *ret);
+
 			}
 		}
 	}
