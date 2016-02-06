@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 00:24:26 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 01:11:19 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,20 @@ static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
 	else
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
+		{
+			//printf("PAD : '%s'\n", padding);
+			//printf("RET : '%s'\n", *ret);
 			*ret = ft_strjoin(
-					(tmp2 = *ret) + offset,
+				(tmp2 = *ret) + offset,
 					tmp = padding);
+			if ((*ret)[ft_strlen(*ret) - 1] == '-')
+			{
+				(*ret)[ft_strlen(*ret) - 1] = '\0';
+				*ret = ft_strjoin_free(ft_strdup("-"), *ret);
+			}
+		}
 		else
 		{
-			//printf("RET : '%s'\n", *ret);
 			if (**ret == '+')
 			{
 				*ret = ft_strjoin_free(ft_strdup("+"), ft_strjoin(
@@ -125,7 +133,6 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 				{
 					if ((int)(ft_strlen(padding) - 2) >= 0)
 						padding[ft_strlen(padding) - 2] = '\0';
-					//	if (ft_strlen(conv->padding) >)
 					*ret = ft_strjoin_free(ft_strdup("0x"), ft_strjoin_free(
 								*ret, padding));
 					ft_strdel(&tmp);
@@ -268,7 +275,6 @@ static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 
 static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 {
-	//printf("RET : '%s'\n", *ret);
 	if (ft_strchr(*ret, '-') == NULL)
 	{
 		if (ft_strcmp(*ret, "0") != 0)
