@@ -32,14 +32,12 @@ int main()
 	//printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 	
 //	printf("%0+5d", 42);
-//	printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
-	printf("%+03d", 0);
+	printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 	printf("\n________________\n");
-	printf("\n___          _____\n");
+	printf("\n___          ___\n");
 	printf("\n___          ___\n");
 	printf("\n________________\n");
-//	ft_printf("%s %s %s ttring. gg!", "this", "is", "a")	
-	ft_printf("%+03d", 0);
+	ft_printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 //	ft_printf("%0+5d", 42);
 	//ft_printf("%s %s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 

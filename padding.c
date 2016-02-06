@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 14:14:16 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 14:30:45 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,7 +420,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	ft_init_conv(&conv);
 	ret = ft_get_flags(str, &conv, e);
 	ft_store_padding(str, &conv);
-#ifdef EBUG
+	#ifdef EBUG
 	printf("MODIFIER : '%s'\n", conv.modifier);
 	printf("PRECISION : '%s'\n", conv.precision);
 	printf("PRECISION_POS : '%d'\n", conv.precision_pos);
@@ -431,7 +431,7 @@ char	*ft_get_padding(char *str, t_env *e)
 	printf("PADDING : '%s'\n", conv.padding);
 	printf("PADDING_POS : '%d'\n", conv.padding_pos);
 	printf("\n");
-#endif
+	#endif
 	if (ret == NULL)
 		ret = ft_padding_ret_null(str, &conv, e);
 	else
