@@ -30,12 +30,13 @@ int main()
 	//printf("%#08x", 42);
 	printf("\n________________\n");
 	//printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
-	printf("'%-5d'", -42);
+	
+	printf("%0+5d", 42);
 	printf("\n________________\n");
 	printf("\n___          _____\n");
 	printf("\n___          ___\n");
 	printf("\n________________\n");
-	ft_printf("'%-5d'", -42);
+	ft_printf("%0+5d", 42);
 	//ft_printf("%s %s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
 
 	return (len);

@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 01:11:19 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 11:30:47 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
 	{
 		if (ft_strchr(conv->flag, '-') != NULL)
 		{
-			//printf("PAD : '%s'\n", padding);
-			//printf("RET : '%s'\n", *ret);
 			*ret = ft_strjoin(
 				(tmp2 = *ret) + offset,
 					tmp = padding);
@@ -275,19 +273,31 @@ static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 
 static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 {
+	int	i;
+
+	i = 0;
 	if (ft_strchr(*ret, '-') == NULL)
 	{
 		if (ft_strcmp(*ret, "0") != 0)
 		{
-			*ret = ft_strjoin_free(ft_strdup("+"), *ret);
+			if (ft_strchr(conv->flag, '0') == NULL)
+				*ret = ft_strjoin_free(ft_strdup(" "), *ret);
+			else
+				*ret = ft_strjoin_free(ft_strdup("0"), *ret);
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 						- ft_strlen(*ret)));
+			while ((*ret)[i] == ' ')
+				i++;
+			if (i - 1 >= 0)
+				(*ret)[i - 1] = '+';
+			else
+				**ret = '+';
 		}
 		else
 		{
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 						- ft_strlen(*ret)));
-			**ret = '+';
+				**ret = '+';
 		}
 	}
 	else
