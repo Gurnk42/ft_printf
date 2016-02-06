@@ -5,6 +5,10 @@ CFLAGS = -Wall -Wextra -Werror $(INCLUDE)
 SRCS = ft_printf.c \
 	utils.c \
 	padding.c \
+	padding_2.c \
+	padding_3.c \
+	padding_4.c \
+	padding_5.c \
 	flags.c \
 	precision.c \
 	conversion.c \
