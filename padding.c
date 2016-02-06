@@ -6,13 +6,11 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 15:44:03 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 15:55:55 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-#include <stdio.h>
 
 static void	ft_padding_switch_core(t_padding *p, t_conv *conv, int *offset)
 {
@@ -432,18 +430,6 @@ char	*ft_get_padding(char *str, t_env *e)
 	ft_init_conv(&conv);
 	ret = ft_get_flags(str, &conv, e);
 	ft_store_padding(str, &conv);
-	#ifdef EBUG
-	printf("MODIFIER : '%s'\n", conv.modifier);
-	printf("PRECISION : '%s'\n", conv.precision);
-	printf("PRECISION_POS : '%d'\n", conv.precision_pos);
-	printf("CONVERSION : '%c'\n", conv.conversion);
-	printf("CONVERSION_POS : '%d'\n", conv.conversion_pos);
-	printf("FLAGS : '%s'\n", conv.flag);
-	printf("FLAG_POS : '%d'\n", conv.flag_pos);
-	printf("PADDING : '%s'\n", conv.padding);
-	printf("PADDING_POS : '%d'\n", conv.padding_pos);
-	printf("\n");
-	#endif
 	if (ret == NULL)
 		ret = ft_padding_ret_null(str, &conv, e);
 	else

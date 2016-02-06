@@ -6,15 +6,13 @@
 /*   By: ebouther <ebouther@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/11 18:09:41 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/05 00:55:14 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 16:04:41 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-#include <stdio.h>
-
-void	ft_init_conv(t_conv *conv)
+void		ft_init_conv(t_conv *conv)
 {
 	conv->modifier = ft_strnew(0);
 	conv->conversion = 0;
@@ -38,14 +36,35 @@ static void	ft_init_env(char const *s, va_list *ap, t_env *e)
 	e->len_add = 0;
 }
 
-int		ft_printf(char const *s, ...)
+static void	ft_printf_no_conv(int *len, t_env *e)
+{
+	int		i;
+
+	i = 0;
+	while (i < *len && (e->ret = ft_strchr(e->str + i, '%')) != NULL)
+	{
+		*(e->ret) = '\0';
+		e->res = ft_strjoin_free(e->res, ft_strjoin(e->str + i,
+					e->tmp = ft_get_padding(e->ret + 1, e)));
+		i += (int)(e->ret - (e->str + i)) + e->offset;
+		ft_strdel(&(e->tmp));
+	}
+	if (i < *len)
+	{
+		e->res = ft_strjoin(
+				e->tmp = e->res, e->str + i);
+		ft_strdel(&(e->tmp));
+	}
+	*len = ft_strlen(e->res);
+	*len -= ft_putstr_0(e->res) * 15;
+}
+
+int			ft_printf(char const *s, ...)
 {
 	t_env	env;
 	va_list	ap;
-	int	len;
-	int	i;
+	int		len;
 
-	i = 0;
 	va_start(ap, s);
 	ft_init_env(s, &ap, &env);
 	len = ft_strlen(s);
@@ -55,23 +74,7 @@ int		ft_printf(char const *s, ...)
 		len = 0;
 	}
 	else
-	{
-		while (i < len && (env.ret = ft_strchr(env.str + i, '%')) != NULL)
-		{
-			*env.ret = '\0';
-			env.res = ft_strjoin_free(env.res, ft_strjoin(env.str + i,
-							env.tmp = ft_get_padding(env.ret + 1, &env)));
-			i += (int)(env.ret - (env.str + i)) + env.offset;
-			ft_strdel(&env.tmp);
-		}
-		if (i < len)
-		{
-			env.res = ft_strjoin(env.tmp = env.res, env.str + i);
-			ft_strdel(&env.tmp);
-		}
-		len = ft_strlen(env.res);
-		len -= ft_putstr_0(env.res) * 15;
-	}
+		ft_printf_no_conv(&len, &env);
 	va_end(*(env.ap));
 	ft_strdel(&env.res);
 	ft_strdel(&env.str);

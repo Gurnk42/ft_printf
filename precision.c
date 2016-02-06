@@ -6,13 +6,11 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 10:58:52 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 14:40:07 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 15:53:04 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-#include <stdio.h>
 
 char	*ft_get_precision(char *str, t_conv *conv, t_env *e)
 {
