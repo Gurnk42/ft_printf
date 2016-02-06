@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 14:01:07 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 14:14:16 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,10 @@ static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
 		{
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 						- ft_strlen(*ret)));
-				**ret = '+';
+				if (**ret != '0' || ft_strchr(conv->flag, '0') != NULL)
+					**ret = '+';
+				else if (ft_strlen(conv->flag) == 1 && ft_strchr(conv->flag, '+') != NULL && conv->padding_pos == -1)
+					*ret = ft_strjoin_free(ft_strdup("+"), *ret);
 		}
 	}
 	else
@@ -327,7 +330,6 @@ static void	ft_padding_ret_di(t_conv *conv, char **ret, t_env *e)
 		*ret = ft_strjoin_free(ft_strdup(" "), *ret);
 	else
 	{
-		//printf("RET : '%s'\n", *ret);
 		if (ft_atoi(*ret) < 0)
 		{
 		ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
@@ -338,7 +340,6 @@ static void	ft_padding_ret_di(t_conv *conv, char **ret, t_env *e)
 		else
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 					- ft_strlen(*ret)));
-		//printf("RET : '%s'\n", *ret);
 	}
 	e->offset = conv->conversion_pos + 2;
 }
