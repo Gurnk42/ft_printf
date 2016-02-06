@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 16:44:54 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 17:37:16 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,36 @@ static void	ft_padding_switch(t_padding *p, t_conv *conv, int *offset)
 		*(p->padding) = ft_strjoin_free(*(p->padding), ft_strdup(" "));
 }
 
+static void	ft_do_padding_switch_5_1(char **ret,
+		int offset, char *padding)
+{
+	char	*tmp2;
+	char	*tmp;
+
+	tmp2 = NULL;
+	tmp = NULL;
+	*ret = ft_strjoin(
+			(tmp2 = *ret) + offset,
+			tmp = padding);
+	if ((*ret)[ft_strlen(*ret) - 1] == '-')
+	{
+		(*ret)[ft_strlen(*ret) - 1] = '\0';
+		*ret = ft_strjoin_free(ft_strdup("-"), *ret);
+	}
+	ft_strdel(&tmp);
+	ft_strdel(&tmp2);
+}
+
 static void	ft_do_padding_switch_5(t_conv *conv, char **ret,
 		int offset, char *padding)
 {
 	char	*tmp2;
 	char	*tmp;
 
+	tmp2 = NULL;
+	tmp = NULL;
 	if (ft_strchr(conv->flag, '-') != NULL)
-	{
-		*ret = ft_strjoin(
-				(tmp2 = *ret) + offset,
-				tmp = padding);
-		if ((*ret)[ft_strlen(*ret) - 1] == '-')
-		{
-			(*ret)[ft_strlen(*ret) - 1] = '\0';
-			*ret = ft_strjoin_free(ft_strdup("-"), *ret);
-		}
-	}
+		ft_do_padding_switch_5_1(ret, offset, padding);
 	else
 	{
 		if (**ret == '+')
@@ -80,9 +93,9 @@ static void	ft_do_padding_switch_5(t_conv *conv, char **ret,
 			*ret = ft_strjoin(
 					tmp = padding,
 					(tmp2 = *ret) + offset);
+		ft_strdel(&tmp);
+		ft_strdel(&tmp2);
 	}
-	ft_strdel(&tmp);
-	ft_strdel(&tmp2);
 }
 
 static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
@@ -97,22 +110,23 @@ static void	ft_do_padding_switch_4(t_conv *conv, char **ret,
 		ft_do_padding_switch_5(conv, ret, offset, padding);
 }
 
-static void	ft_do_padding_switch_3_2(t_conv *conv, char **ret, char **padding, int i)
+static void	ft_do_padding_switch_3_2(t_conv *conv, char **ret,
+		char **padding, int i)
 {
-		if (ft_strchr(conv->flag, '-') == NULL)
-		{
-			(*padding)[i - 2] = '0';
-			(*padding)[i - 1] = 'x';
-			*ret = ft_strjoin_free(
+	if (ft_strchr(conv->flag, '-') == NULL)
+	{
+		(*padding)[i - 2] = '0';
+		(*padding)[i - 1] = 'x';
+		*ret = ft_strjoin_free(
 				*padding, *ret);
-		}
-		else
-		{
-			if ((int)(ft_strlen(*padding) - 2) >= 0)
-				(*padding)[ft_strlen(*padding) - 2] = '\0';
-			*ret = ft_strjoin_free(ft_strdup("0x"), ft_strjoin_free(
-						*ret, *padding));
-		}
+	}
+	else
+	{
+		if ((int)(ft_strlen(*padding) - 2) >= 0)
+			(*padding)[ft_strlen(*padding) - 2] = '\0';
+		*ret = ft_strjoin_free(ft_strdup("0x"), ft_strjoin_free(
+					*ret, *padding));
+	}
 }
 
 static void	ft_do_padding_switch_3_1(t_conv *conv, char **ret, char **padding)
@@ -155,6 +169,34 @@ static void	ft_do_padding_switch_3(t_conv *conv, char **ret,
 		ft_do_padding_switch_4(conv, ret, offset, padding);
 }
 
+static void	ft_do_padding_switch_2_1(t_conv *conv, char **ret,
+		char *padding, int i)
+{
+	if (ft_strchr(conv->flag, '-') == NULL)
+	{
+		while (padding[i] == ' ')
+			i++;
+		if (i - 1 >= 0)
+		{
+			padding[i - 1] = '0';
+			*ret = ft_strjoin_free(padding, *ret);
+		}
+		else
+			*ret = ft_strjoin_free(
+					padding = ft_strjoin_free(ft_strdup("0"),
+						padding), *ret);
+	}
+	else
+	{
+		if ((int)ft_strlen(padding) > 1)
+		{
+			*ret = ft_strjoin(ft_strdup("0"), *ret);
+			padding[ft_strlen(padding) - 1] = '\0';
+			*ret = ft_strjoin_free(*ret, padding);
+		}
+	}
+}
+
 static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
 		int offset, char *padding)
 {
@@ -177,31 +219,7 @@ static void	ft_do_padding_switch_2(t_conv *conv, char **ret,
 				&& ft_strcmp(conv->precision, "0") != 0)
 			*ret = ft_strjoin_free(padding, *ret);
 		else
-		{
-			if (ft_strchr(conv->flag, '-') == NULL)
-			{
-				while (padding[i] == ' ')
-					i++;
-				if (i - 1 >= 0)
-				{
-					padding[i - 1] = '0';
-					*ret = ft_strjoin_free(padding, *ret);
-				}
-				else
-					*ret = ft_strjoin_free(
-							padding = ft_strjoin_free(ft_strdup("0"),
-								padding), *ret);
-			}
-			else
-			{
-				if ((int)ft_strlen(padding) > 1)
-				{
-					*ret = ft_strjoin(ft_strdup("0"), *ret);
-					padding[ft_strlen(padding) - 1] = '\0';
-					*ret = ft_strjoin_free(*ret, padding);
-				}
-			}
-		}
+			ft_do_padding_switch_2_1(conv, ret, padding, i);
 	}
 	else
 		ft_do_padding_switch_3(conv, ret, offset, padding);
@@ -272,33 +290,36 @@ static char	*ft_padding_ret_null(char *str, t_conv *conv, t_env *e)
 					- ft_strlen(ret)));
 		e->offset = ft_strlen(conv->padding) + ft_strlen(conv->flag)
 			+ ((conv->precision_pos != -1
-						&& ft_strcmp(conv->precision, "") == 0) ? (1) : (0)) + 2;
+			&& ft_strcmp(conv->precision, "") == 0) ? (1) : (0)) + 2;
 	}
 	return (ret);
 }
 
-static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
+static void	ft_padding_ret_di_core_1(t_conv *conv, char **ret)
 {
 	int	i;
 
 	i = 0;
+	if (ft_strchr(conv->flag, '0') == NULL)
+		*ret = ft_strjoin_free(ft_strdup(" "), *ret);
+	else
+		*ret = ft_strjoin_free(ft_strdup("0"), *ret);
+	ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
+				- ft_strlen(*ret)));
+	while ((*ret)[i] == ' ')
+		i++;
+	if (i - 1 >= 0)
+		(*ret)[i - 1] = '+';
+	else
+		**ret = '+';
+}
+
+static void	ft_padding_ret_di_core(t_conv *conv, char **ret)
+{
 	if (ft_strchr(*ret, '-') == NULL)
 	{
 		if (ft_strcmp(*ret, "0") != 0)
-		{
-			if (ft_strchr(conv->flag, '0') == NULL)
-				*ret = ft_strjoin_free(ft_strdup(" "), *ret);
-			else
-				*ret = ft_strjoin_free(ft_strdup("0"), *ret);
-			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
-						- ft_strlen(*ret)));
-			while ((*ret)[i] == ' ')
-				i++;
-			if (i - 1 >= 0)
-				(*ret)[i - 1] = '+';
-			else
-				**ret = '+';
-		}
+			ft_padding_ret_di_core_1(conv, ret);
 		else
 		{
 			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
