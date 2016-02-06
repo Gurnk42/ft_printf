@@ -6,7 +6,7 @@
 /*   By: ebouther <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 09:00:56 by ebouther          #+#    #+#             */
-/*   Updated: 2016/02/06 14:49:37 by ebouther         ###   ########.fr       */
+/*   Updated: 2016/02/06 15:44:03 by ebouther         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,8 +344,14 @@ static void	ft_padding_ret_di(t_conv *conv, char **ret, t_env *e)
 				*tmp = '0';
 		}
 		else
-			ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
+		{
+			if (ft_strcmp(conv->flag, " 0") == 0
+				|| ft_strcmp(conv->flag, "0 ") == 0)
+				*ret = ft_strjoin_free(ft_strdup(" "), *ret);
+			else
+				ft_do_padding(ret, conv, (int)(ft_atoi(conv->padding)
 					- ft_strlen(*ret)));
+		}
 	}
 	e->offset = conv->conversion_pos + 2;
 }

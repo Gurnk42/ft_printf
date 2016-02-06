@@ -1,4 +1,4 @@
-#include "ft_printf.h"
+#include "printf.h"
 
 #include <stdio.h>
 #include <limits.h>
@@ -10,33 +10,39 @@ int main()
 	char c;
 
 	setbuf(stdout, NULL);
-
-	//printf("{%-15Z}", 123);
-	//printf("{%10R}", 123);
-	//printf("% Zoooo");
-	//len = ft_printf("{%-15Z}", 123);
-	//len = ft_printf("%#x", 42);
-	//len = ft_printf("% Zoooo");
-	//ft_printf("{%10R}", 123);
-//ft_printf("char : '%c',\nstr: '%s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
-	//printf("\n-----------------------------------------------\n");
-	//printf("char : '%c',\nstr: '%.4s',\n%%: '%%'\nint: '%010d' | x : '%x'\n", (char)'y', "dat'sastr", -42, x);
-	
-	
-	
-	
-	
-	//printf("\n________________\n");
-	//printf("%#08x", 42);
-	printf("\n________________\n");
-	//printf("%s %s %s %s string. gg!", "this", "is", "a", "multi", "string");
-	
-	printf("{%#.5x}", 1);
-	printf("\n________________\n");
-	printf("\n___          ___\n");
-	printf("\n___          ___\n");
-	printf("\n________________\n");
-	ft_printf("{%#.5x}", 1);
+  
+/*  printf("% ");
+  printf("% h");
+  printf("% hZ");
+  printf("% hZ%");
+  printf("%ll#x", 9223372036854775807);
+printf("\n________\n");*/
+  printf("'%0 d'", 42);
+printf("\n________\n");
+  printf("'% 0d'", 42);
+printf("\n________\n");
+printf("\n________\n");
+printf("\n________\n");
+printf("\n________\n");
+	ft_printf("'%0 d'", 42);
+printf("\n________\n");
+	ft_printf("'% 0d'", 42);
+printf("\n________\n");
+/*
+printf("\n________\n");
+  printf("%5+d", 42);
+  printf("%-5+d", 42);
+  printf("%zhd", "4294967296");
+  printf("%jzd", "9223372036854775807");
+  printf("%jhd", "9223372036854775807");
+  printf("%lhl", "9223372036854775807");
+  printf("%lhlz", "9223372036854775807");
+  printf("%zj", "9223372036854775807");
+  printf("%lhh", "2147483647");
+  printf("@main_ftprintf: %####0000 33..1..#00d\n", 256);
+  printf("@main_ftprintf: %####0000 33..1d", 256);
+  printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256);//irintf("{%-15Z}", 123);
+*/
 
 	return (len);
 }
